@@ -37,7 +37,13 @@ INSTRUCTIONS:
 - The character must feel like a real, believable person - not a generic template.
 - Make the backstory emotionally rich and specific (include childhood, education, a defining life moment).
 - The system_prompt should be written in 2nd person ("You are [Name]...") as instructions for an AI to roleplay this character.
-- The avatar_prompt MUST start with "portrait of a beautiful [age]-year-old [nationality] woman," and include: feminine features, hair description, eye color, skin tone, clothing, expression, lighting. Always end with "female, woman, highly detailed, realistic photography, 8k".
+- The avatar_prompt MUST start with "portrait of a beautiful [age]-year-old [nationality] woman," and include:
+  * Specific hair color and style
+  * Eye color
+  * Skin tone
+  * Facial expression
+  * Clothing hint
+  * Always end with: "photorealistic, hyperrealistic, real human skin texture, natural facial pores, professional studio lighting, sharp focus, DSLR photography, 8k, female, woman, NOT anime, NOT cartoon, NOT illustration, NOT drawing, NOT painting"
 - Vary personality significantly - not every character should be warm and friendly.
 - Age must be between 18 and 45.
 - All list fields must have 3-6 items.
@@ -60,7 +66,7 @@ Return ONLY a single valid JSON object with EXACTLY these fields, no extra text,
   "backstory": "string (4-6 sentences with specific life details)",
   "greeting": "string (opening message this character would send to a new user)",
   "system_prompt": "string (detailed roleplay instruction starting with You are [Name]...)",
-  "avatar_prompt": "string (MUST start with portrait of a beautiful [age]-year-old [nationality] woman, and end with female, woman, highly detailed, realistic photography, 8k)"
+  "avatar_prompt": "string (MUST start with portrait of a beautiful [age]-year-old [nationality] woman, include hair, eyes, skin, expression, clothing, end with photorealistic, hyperrealistic, real human skin texture, natural facial pores, professional studio lighting, sharp focus, DSLR photography, 8k, female, woman, NOT anime, NOT cartoon, NOT illustration, NOT drawing, NOT painting)"
 }}
 """
 
@@ -88,7 +94,13 @@ INSTRUCTIONS:
 - Vary personalities, backstories, ages, and communication styles significantly.
 - Each backstory must be emotionally specific and unique.
 - system_prompt for each character must be written in 2nd person: "You are [Name]..."
-- avatar_prompt MUST start with "portrait of a beautiful [age]-year-old [nationality] woman," and end with "female, woman, highly detailed, realistic photography, 8k"
+- avatar_prompt MUST start with "portrait of a beautiful [age]-year-old [nationality] woman," and include:
+  * Specific hair color and style
+  * Eye color
+  * Skin tone
+  * Facial expression
+  * Clothing hint
+  * Always end with: "photorealistic, hyperrealistic, real human skin texture, natural facial pores, professional studio lighting, sharp focus, DSLR photography, 8k, female, woman, NOT anime, NOT cartoon, NOT illustration, NOT drawing, NOT painting"
 - Age must be between 18 and 45 for each character.
 - All list fields must have 3-6 items.
 
@@ -111,7 +123,7 @@ Return ONLY a valid JSON array of {count} objects. No markdown, no extra text. E
     "backstory": "string",
     "greeting": "string",
     "system_prompt": "string",
-    "avatar_prompt": "string"
+    "avatar_prompt": "string (MUST start with portrait of a beautiful [age]-year-old [nationality] woman, include hair, eyes, skin, expression, clothing, end with photorealistic, hyperrealistic, real human skin texture, natural facial pores, professional studio lighting, sharp focus, DSLR photography, 8k, female, woman, NOT anime, NOT cartoon, NOT illustration, NOT drawing, NOT painting)"
   }}
 ]
 """

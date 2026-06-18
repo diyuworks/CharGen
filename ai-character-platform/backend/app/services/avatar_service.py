@@ -11,18 +11,49 @@ STABLE_HORDE_URL = "https://stablehorde.net/api/v2"
 AVATAR_DIR = "static/avatars"
 os.makedirs(AVATAR_DIR, exist_ok=True)
 
+# Realism boosters always appended to every prompt
+REALISM_SUFFIX = (
+    ", photorealistic, hyperrealistic, real human skin texture, "
+    "natural facial pores, subsurface scattering, real human eyes, "
+    "professional studio lighting, sharp focus, DSLR photography, "
+    "Canon EOS 5D, 85mm lens, f/1.8 aperture, 8k resolution, "
+    "female, woman"
+)
+
+# What to always avoid
+NEGATIVE_PROMPT = (
+    "male, man, boy, masculine, ugly, deformed, blurry, low quality, "
+    "anime, cartoon, drawing, illustration, 3d render, CGI, animated, "
+    "painting, digital art, unrealistic, plastic skin, doll, wax figure, "
+    "extra fingers, bad anatomy, bad hands, missing limbs, "
+    "watermark, signature, text, logo, border, frame"
+)
+
 
 def _build_prompt(character: dict) -> str:
     base = character.get("avatar_prompt", "")
-    if base and "woman" in base.lower():
-        return base + ", female, woman, highly detailed face, realistic photography, 8k, professional portrait, photorealistic"
+
+    if base:
+        # Remove any weak endings and replace with strong realism suffix
+        weak_endings = [
+            "realistic photography, 8k",
+            "highly detailed, realistic photography, 8k",
+            "female, woman, highly detailed, realistic photography, 8k"
+        ]
+        for ending in weak_endings:
+            base = base.replace(ending, "").strip().rstrip(",")
+        return base + REALISM_SUFFIX
+
+    # Fallback if no avatar_prompt exists
     age = character.get("age", 25)
     nationality = character.get("nationality", "")
     occupation = character.get("occupation", "")
+
     return (
-        f"portrait of a beautiful {age}-year-old {nationality} woman, {occupation}, "
-        f"feminine features, realistic face, professional headshot, "
-        f"natural lighting, highly detailed, 8k, female, woman, photorealistic"
+        f"portrait of a beautiful {age}-year-old {nationality} woman, "
+        f"{occupation}, feminine features, realistic face, "
+        f"professional headshot, natural lighting, highly detailed"
+        + REALISM_SUFFIX
     )
 
 
@@ -33,19 +64,18 @@ async def _generate_stable_horde(prompt: str) -> bytes | None:
         "Client-Agent": "ai-character-platform:1.0",
     }
 
-    # Submit generation request
     payload = {
         "prompt": prompt,
-        "negative_prompt": "male, man, boy, masculine, ugly, deformed, blurry, low quality, cartoon, anime, drawing",
+        "negative_prompt": NEGATIVE_PROMPT,
         "params": {
             "width": 512,
             "height": 512,
-            "steps": 25,
-            "cfg_scale": 7,
-            "sampler_name": "k_euler_a",
+            "steps": 30,
+            "cfg_scale": 7.5,
+            "sampler_name": "k_dpm_2_a",
             "n": 1,
         },
-        "models": ["Deliberate"],
+        "models": ["Realistic Vision"],
         "r2": False,
         "shared": False,
     }
@@ -86,7 +116,6 @@ async def _generate_stable_horde(prompt: str) -> bytes | None:
                 print(f"⏳ Attempt {attempt+1}: done={done}, queue={queue_position}, wait={wait_time}s")
 
                 if done:
-                    # Get the result
                     result_response = await client.get(
                         f"{STABLE_HORDE_URL}/generate/status/{job_id}",
                         headers=headers
@@ -114,10 +143,9 @@ def _save_image(image_bytes: bytes, character_id: str) -> str:
 
 
 def _dicebear_url(character: dict) -> str:
-    """DiceBear lorelei as fallback — realistic illustrated female."""
+    """DiceBear lorelei as fallback."""
     name = character.get("name", "default").replace(" ", "")
     nationality = character.get("nationality", "")
-    # Pick background color based on nationality
     colors = ["b6e3f4", "c0aede", "d1d4f9", "ffd5dc", "ffdfbf"]
     color = colors[sum(ord(c) for c in name) % len(colors)]
     return f"https://api.dicebear.com/7.x/lorelei/svg?seed={name}{nationality}&backgroundColor={color}&flip=false"
@@ -135,7 +163,8 @@ async def generate_avatar_for_character(
         return None
 
     prompt = _build_prompt(character)
-    print(f"🎨 Generating Stable Horde avatar for {character.get('name')}...")
+    print(f"🎨 Generating avatar for {character.get('name')}...")
+    print(f"📝 Prompt: {prompt[:100]}...")
 
     image_bytes = await _generate_stable_horde(prompt)
 
@@ -148,7 +177,6 @@ async def generate_avatar_for_character(
         print(f"✅ Avatar saved: {avatar_url}")
         return avatar_url
     else:
-        # Fallback to DiceBear lorelei
         print("⚠️ Stable Horde failed, using DiceBear fallback")
         fallback_url = _dicebear_url(character)
         await db.characters.update_one(
@@ -163,7 +191,11 @@ async def generate_avatars_bulk(
     limit: int = 20,
 ) -> dict:
     cursor = db.characters.find(
-        {"$or": [{"avatar_url": ""}, {"avatar_url": None}, {"avatar_url": {"$exists": False}}]}
+        {"$or": [
+            {"avatar_url": ""},
+            {"avatar_url": None},
+            {"avatar_url": {"$exists": False}}
+        ]}
     ).limit(limit)
 
     characters = await cursor.to_list(length=limit)
@@ -181,6 +213,7 @@ async def generate_avatars_bulk(
 
 def build_avatar_url(avatar_prompt: str, seed: int = 42) -> str:
     return ""
+
 
 def name_to_seed(name: str) -> int:
     return abs(sum(ord(c) for c in name)) % 99999
