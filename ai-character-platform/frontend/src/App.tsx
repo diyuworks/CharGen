@@ -22,7 +22,7 @@ export default function App() {
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center">
                 <Sparkles size={14} className="text-white" />
               </div>
-              <span className="font-bold text-white text-sm">CharacterAI</span>
+              <span className="font-bold text-white text-sm">FBN</span>
             </div>
           </div>
 

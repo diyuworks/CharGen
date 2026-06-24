@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Sparkles, Users, Crown, Heart } from "lucide-react";
-import { api } from "../services/api";
+import { Search, Sparkles, Users, Crown, Heart, Trash2 } from "lucide-react";
+import { api, normalizeAvatarUrl } from "../services/api";
 import type { Character } from "../types/character";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../hooks/useFavorites";
@@ -9,15 +9,16 @@ import CharacterDetails from "../components/CharacterDetails";
 
 const CATEGORIES = ["All", "❤️ Favorites", "College Student", "Researcher", "Fitness Trainer", "Artist", "Influencer", "Software Engineer"];
 
-function CharacterCard({ character, onClick, onFavorite, isFav }: {
+function CharacterCard({ character, onClick, onFavorite, isFav, onDelete }: {
   character: Character;
   onClick: () => void;
   onFavorite: (id: string) => void;
   isFav: boolean;
+  onDelete: (id: string) => void;
 }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const avatarSrc = character.avatar_url?.includes("/static/") ? character.avatar_url : null;
+  const avatarSrc = normalizeAvatarUrl(character.avatar_url);
   const initials = character.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
   const gradients = ["from-violet-600 to-purple-800","from-rose-500 to-pink-800","from-cyan-500 to-blue-800","from-emerald-500 to-teal-800","from-amber-500 to-orange-800","from-fuchsia-500 to-indigo-800"];
   const grad = gradients[character.name.charCodeAt(0) % gradients.length];
@@ -54,13 +55,21 @@ function CharacterCard({ character, onClick, onFavorite, isFav }: {
           </span>
         )}
       </div>
-      {/* Favorite button */}
-      <button
-        onClick={e => { e.stopPropagation(); onFavorite(character.id); }}
-        className="absolute top-3 right-3 z-30 p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        <Heart size={12} className={isFav ? "text-rose-400 fill-rose-400" : "text-white/50"} />
-      </button>
+      {/* Favorite + Delete buttons */}
+      <div className="absolute top-3 right-3 z-30 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          onClick={e => { e.stopPropagation(); onFavorite(character.id); }}
+          className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 hover:border-white/25 transition-colors"
+        >
+          <Heart size={12} className={isFav ? "text-rose-400 fill-rose-400" : "text-white/50"} />
+        </button>
+        <button
+          onClick={e => { e.stopPropagation(); onDelete(character.id); }}
+          className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 hover:border-red-500/40 transition-colors"
+        >
+          <Trash2 size={12} className="text-white/50" />
+        </button>
+      </div>
       <div className="absolute bottom-0 left-0 right-0 p-3">
         <h3 className="text-white font-bold text-sm leading-tight">{character.name}</h3>
         <p className="text-white/50 text-xs mt-0.5 line-clamp-2">{character.description?.slice(0, 80)}...</p>
@@ -84,7 +93,7 @@ export default function Dashboard() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [seed, setSeed] = useState(0);
-  const { favorites, toggle, isFavorite } = useFavorites();
+  const { toggle, isFavorite } = useFavorites();
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this character?")) return;
@@ -170,6 +179,7 @@ export default function Dashboard() {
                 onClick={() => setSelected(char)}
                 onFavorite={toggle}
                 isFav={isFavorite(char.id)}
+                onDelete={handleDelete}
               />
             ))}
           </div>
@@ -188,7 +198,6 @@ export default function Dashboard() {
         <CharacterDetails
           character={selected}
           onClose={() => setSelected(null)}
-          onDelete={handleDelete}
         />
       )}
     </div>

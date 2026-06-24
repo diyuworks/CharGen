@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Briefcase, Trash2, Eye, Loader2, Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import type { Character } from '../types/character';
+import { normalizeAvatarUrl } from '../services/api';
 
 interface Props {
   character: Character;
@@ -35,11 +36,12 @@ function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 }
 
-function buildLoreleiUrl(character: Character): string {
+function buildAvatarFallbackUrl(character: Character): string {
   const seed = encodeURIComponent(character.name + character.nationality);
   const colors = ['b6e3f4', 'c0aede', 'd1d4f9', 'ffd5dc', 'ffdfbf', 'c1f4c5'];
   const color = colors[character.name.charCodeAt(0) % colors.length];
-  return `https://api.dicebear.com/7.x/lorelei/png?seed=${seed}&backgroundColor=${color}&size=256`;
+  const style = character.gender === 'male' ? 'personas' : 'lorelei';
+  return `https://api.dicebear.com/7.x/${style}/png?seed=${seed}&backgroundColor=${color}&size=256`;
 }
 
 export default function CharacterCard({ character, onView, onDelete }: Props) {
@@ -52,11 +54,9 @@ export default function CharacterCard({ character, onView, onDelete }: Props) {
   const [imgError, setImgError] = useState(false);
   const [liked, setLiked] = useState(false);
 
-  // Determine avatar source
-  const isRealPhoto = character.avatar_url?.includes('localhost:8000/static');
-  const avatarSrc = isRealPhoto
-    ? character.avatar_url
-    : buildLoreleiUrl(character); // Always use lorelei as default
+  const backendAvatar = normalizeAvatarUrl(character.avatar_url);
+  const avatarSrc = backendAvatar ?? buildAvatarFallbackUrl(character);
+  const isRealPhoto = Boolean(backendAvatar);
 
   useEffect(() => {
     setImgLoaded(false);

@@ -14,9 +14,42 @@ export default function GenerateCharacter() {
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // FIX: avatar generation runs as a backend BackgroundTask, so the initial
+  // generate-character response always has avatar_url: "" — the real image
+  // isn't ready yet. This polls each new character until its avatar shows up
+  // (or we give up after maxAttempts) and patches it into state in place.
+  const pollForAvatars = (ids: string[]) => {
+    let attempt = 0;
+    const maxAttempts = 20; // ~50s at 2.5s interval — covers Pollinations easily, most Stable Horde fallbacks too
+
+    const interval = setInterval(async () => {
+      attempt++;
+      try {
+        const updates = await Promise.all(
+          ids.map(id => api.getCharacter(id).catch(() => null))
+        );
+
+        setCharacters(prev =>
+          prev.map(c => {
+            const fresh = updates.find(u => u && u.id === c.id);
+            return fresh ?? c;
+          })
+        );
+
+        const allDone = updates.every(u => u && u.avatar_url);
+        if (allDone || attempt >= maxAttempts) {
+          clearInterval(interval);
+        }
+      } catch {
+        if (attempt >= maxAttempts) clearInterval(interval);
+      }
+    }, 2500);
+  };
+
   const handleGenerate = async (
     category: string | undefined,
     nationality: string | undefined,
+    gender: 'male' | 'female' | undefined,
     count: number
   ) => {
     setIsLoading(true);
@@ -24,9 +57,14 @@ export default function GenerateCharacter() {
     setSuccessMsg(null);
 
     try {
-      const result = await api.generateCharacters({ category, nationality, count });
+      const result = await api.generateCharacters({ category, nationality, gender, count });
       setCharacters(result);
       setSuccessMsg(`✅ ${result.length} character${result.length > 1 ? 's' : ''} generated and saved!`);
+
+      const pendingIds = result.filter(c => !c.avatar_url).map(c => c.id);
+      if (pendingIds.length > 0) {
+        pollForAvatars(pendingIds);
+      }
     } catch (err: any) {
       setError(err.message || 'Generation failed. Check your Gemini API key.');
     } finally {
@@ -38,7 +76,7 @@ export default function GenerateCharacter() {
     <div className="space-y-6">
       <div>
         <h1 className="text-white text-2xl font-bold">Generate Characters</h1>
-        <p className="text-white/40 text-sm mt-1">Create unique AI female characters powered by Gemini</p>
+        <p className="text-white/40 text-sm mt-1">Create unique AI characters powered by Gemini</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,6 +1,25 @@
 import type { Character, CharacterListResponse, GenerateRequest, StatsResponse } from '../types/character';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api/v1';
+export const BACKEND_BASE = BASE_URL.replace(/\/api\/v1\/?$/i, '');
+
+export function normalizeAvatarUrl(rawAvatar?: string | null): string | null {
+  if (!rawAvatar) return null;
+
+  const normalized = rawAvatar
+    .replace(/^http:\/\/localhost:8000/, BACKEND_BASE)
+    .replace(/^https?:\/\/127\.0\.0\.1:8000/, BACKEND_BASE);
+
+  if (normalized.startsWith('http')) {
+    return normalized;
+  }
+
+  if (normalized.includes('/static/')) {
+    return `${BACKEND_BASE}${normalized.startsWith('/') ? '' : '/'}${normalized}`;
+  }
+
+  return null;
+}
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {

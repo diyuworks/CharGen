@@ -2,6 +2,7 @@ export interface Character {
   id: string;
   name: string;
   age: number;
+  gender: 'male' | 'female';
   nationality: string;
   occupation: string;
   category: string;
@@ -31,6 +32,7 @@ export interface CharacterListResponse {
 export interface GenerateRequest {
   category?: string;
   nationality?: string;
+  gender?: 'male' | 'female';
   count: number;
 }
 

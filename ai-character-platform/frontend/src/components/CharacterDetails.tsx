@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Check, MapPin, Briefcase, Heart, BookOpen, Gamepad2, Brain } from 'lucide-react';
 import { useState } from 'react';
 import type { Character } from '../types/character';
+import { normalizeAvatarUrl } from '../services/api';
 
 interface Props {
   character: Character | null;
@@ -72,7 +73,11 @@ export default function CharacterDetails({ character, onClose }: Props) {
             {/* Avatar area */}
             <div className="h-48 bg-gradient-to-br from-violet-900/50 to-purple-900/50 flex items-center justify-center border-b border-white/8">
               {character.avatar_url ? (
-                <img src={character.avatar_url} alt={character.name} className="h-full w-full object-cover" />
+                <img
+                  src={normalizeAvatarUrl(character.avatar_url) ?? character.avatar_url}
+                  alt={character.name}
+                  className="h-full w-full object-cover"
+                />
               ) : (
                 <div className="text-center">
                   <div className="w-20 h-20 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-3xl font-bold text-white mx-auto mb-2">
@@ -103,7 +108,7 @@ export default function CharacterDetails({ character, onClose }: Props) {
               {activeTab === 'profile' ? (
                 <>
                   {/* Basic info */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/5 rounded-xl p-3">
                       <div className="text-white/40 text-xs mb-1 flex items-center gap-1"><MapPin size={11} /> Nationality</div>
                       <div className="text-white text-sm font-medium">{character.nationality}</div>
@@ -112,7 +117,11 @@ export default function CharacterDetails({ character, onClose }: Props) {
                       <div className="text-white/40 text-xs mb-1">Age</div>
                       <div className="text-white text-sm font-medium">{character.age} years</div>
                     </div>
-                    <div className="bg-white/5 rounded-xl p-3 col-span-2">
+                    <div className="bg-white/5 rounded-xl p-3">
+                      <div className="text-white/40 text-xs mb-1">Gender</div>
+                      <div className="text-white text-sm font-medium capitalize">{character.gender || 'female'}</div>
+                    </div>
+                    <div className="bg-white/5 rounded-xl p-3 col-span-3">
                       <div className="text-white/40 text-xs mb-1 flex items-center gap-1"><Briefcase size={11} /> Category</div>
                       <div className="text-white text-sm font-medium">{character.category}</div>
                     </div>
