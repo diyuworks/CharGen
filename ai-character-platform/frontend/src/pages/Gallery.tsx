@@ -47,15 +47,6 @@ export default function Gallery() {
     load();
   };
 
-  const handleAvatarUpdate = (id: string, url: string) => {
-    if (!data) return;
-    setData({
-      ...data,
-      characters: data.characters.map(c =>
-        c.id === id ? { ...c, avatar_url: url } : c
-      ),
-    });
-  };
 
   const handleBulkAvatars = async () => {
     setBulkLoading(true);
@@ -122,7 +113,6 @@ export default function Gallery() {
               character={char}
               onView={setSelected}
               onDelete={handleDelete}
-              onAvatarUpdate={handleAvatarUpdate}
             />
           ))}
         </motion.div>
