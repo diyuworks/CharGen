@@ -23,6 +23,18 @@ async def connect_db():
         ("created_at", ASCENDING)
     ])
 
+    # Chat history — fetched per character, ordered chronologically
+    await db.chat_messages.create_index([
+        ("character_id", ASCENDING),
+        ("created_at", ASCENDING)
+    ])
+
+    # One memory-summary doc per character chat (upserted, so unique on character_id)
+    await db.chat_summaries.create_index("character_id", unique=True)
+
+    # One favorite doc per character (existence = favorited)
+    await db.favorites.create_index("character_id", unique=True)
+
     print(f"✅ Connected to MongoDB: {settings.MONGODB_DB_NAME}")
     return db
 

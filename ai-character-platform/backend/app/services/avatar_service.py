@@ -264,14 +264,27 @@ async def generate_avatar_for_character(
 async def generate_avatars_bulk(
     db: AsyncIOMotorDatabase,
     limit: int = 20,
+    force: bool = False,
 ) -> dict:
-    cursor = db.characters.find(
-        {"$or": [
+    if force:
+        # Catch characters whose avatar_url is empty/missing OR points to a
+        # .webp file — this codebase only ever writes .png (see _save_image),
+        # so any .webp URL is leftover from an old/different backend run and
+        # the file genuinely doesn't exist on disk. Regenerate those too.
+        query = {"$or": [
             {"avatar_url": ""},
             {"avatar_url": None},
-            {"avatar_url": {"$exists": False}}
+            {"avatar_url": {"$exists": False}},
+            {"avatar_url": {"$regex": r"\.webp$"}},
         ]}
-    ).limit(limit)
+    else:
+        query = {"$or": [
+            {"avatar_url": ""},
+            {"avatar_url": None},
+            {"avatar_url": {"$exists": False}},
+        ]}
+
+    cursor = db.characters.find(query).limit(limit)
 
     characters = await cursor.to_list(length=limit)
     updated = 0
@@ -281,7 +294,7 @@ async def generate_avatars_bulk(
         result = await generate_avatar_for_character(db, char_id)
         if result:
             updated += 1
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.3)
 
     return {"updated": updated, "total_processed": len(characters)}
 

@@ -13,6 +13,12 @@
 
   body {
     background-color: #09090b;
+    /* Subtle ambient depth — quiet violet/cyan glow at opposite corners,
+       ties to the male/female accent identity used across cards */
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.08), transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(34, 211, 238, 0.06), transparent 40%);
+    background-attachment: fixed;
     color: white;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;

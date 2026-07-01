@@ -1,23 +1,32 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { api } from "../services/api";
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("waifu_favorites") || "[]");
-    } catch { return []; }
-  });
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("waifu_favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    api.getFavorites()
+      .then(res => setFavorites(res.character_ids))
+      .catch(() => setFavorites([]))
+      .finally(() => setLoaded(true));
+  }, []);
 
-  const toggle = (id: string) => {
+  const toggle = useCallback((id: string) => {
+    // Optimistic update — flip immediately, reconcile if the request fails
     setFavorites(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
-  };
 
-  const isFavorite = (id: string) => favorites.includes(id);
+    api.toggleFavorite(id).catch(() => {
+      // Revert on failure
+      setFavorites(prev =>
+        prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+      );
+    });
+  }, []);
 
-  return { favorites, toggle, isFavorite };
+  const isFavorite = useCallback((id: string) => favorites.includes(id), [favorites]);
+
+  return { favorites, toggle, isFavorite, loaded };
 }

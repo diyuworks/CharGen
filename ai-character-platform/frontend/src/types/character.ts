@@ -36,6 +36,33 @@ export interface GenerateRequest {
   count: number;
 }
 
+export interface ChatMessage {
+  id: string;
+  character_id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  created_at: string;
+}
+
+export interface ChatHistoryResponse {
+  character_id: string;
+  messages: ChatMessage[];
+}
+
+export interface ChatListItem {
+  character_id: string;
+  character_name: string;
+  character_occupation: string;
+  character_avatar_url: string;
+  last_message: string;
+  last_message_role: 'user' | 'assistant';
+  last_message_at: string;
+}
+
+export interface ChatListResponse {
+  chats: ChatListItem[];
+}
+
 export interface StatsResponse {
   total_characters: number;
   by_category: Record<string, number>;

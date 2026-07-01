@@ -1,26 +1,12 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Copy, Check, MapPin, Briefcase, Heart, BookOpen, Gamepad2, Brain } from 'lucide-react';
-import { useState } from 'react';
+﻿import { motion, AnimatePresence } from 'framer-motion';
+import { X, MapPin, Briefcase, Heart, BookOpen, Gamepad2, Brain, MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { Character } from '../types/character';
 import { normalizeAvatarUrl } from '../services/api';
 
 interface Props {
   character: Character | null;
   onClose: () => void;
-}
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  return (
-    <button onClick={copy} className="p-1.5 rounded-lg bg-white/8 hover:bg-white/15 text-white/50 hover:text-white transition-all">
-      {copied ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
-    </button>
-  );
 }
 
 function Section({ title, icon: Icon, children }: { title: string; icon: any; children: React.ReactNode }) {
@@ -36,7 +22,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: any; ch
 }
 
 export default function CharacterDetails({ character, onClose }: Props) {
-  const [activeTab, setActiveTab] = useState<'profile' | 'prompts'>('profile');
+  const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -71,7 +57,7 @@ export default function CharacterDetails({ character, onClose }: Props) {
             </div>
 
             {/* Avatar area */}
-            <div className="h-48 bg-gradient-to-br from-violet-900/50 to-purple-900/50 flex items-center justify-center border-b border-white/8">
+            <div className="relative aspect-square w-full bg-gradient-to-br from-violet-900/50 to-purple-900/50 flex items-center justify-center border-b border-white/8">
               {character.avatar_url ? (
                 <img
                   src={normalizeAvatarUrl(character.avatar_url) ?? character.avatar_url}
@@ -86,27 +72,20 @@ export default function CharacterDetails({ character, onClose }: Props) {
                   <span className="text-white/30 text-xs">Avatar will be generated</span>
                 </div>
               )}
-            </div>
 
-            {/* Tabs */}
-            <div className="flex border-b border-white/8">
-              {(['profile', 'prompts'] as const).map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 py-3 text-sm font-medium transition-colors capitalize ${
-                    activeTab === tab ? 'text-white border-b-2 border-violet-500' : 'text-white/40 hover:text-white/70'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+              <motion.button
+                whileTap={{ scale: 0.96 }}
+                onClick={() => navigate(`/chat/${character.id}`)}
+                className="absolute bottom-3 right-3 flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold rounded-full shadow-lg shadow-violet-900/40 transition-colors"
+              >
+                <MessageCircle size={15} />
+                Chat
+              </motion.button>
             </div>
 
             {/* Content */}
             <div className="p-5 space-y-6">
-              {activeTab === 'profile' ? (
-                <>
+              <>
                   {/* Basic info */}
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/5 rounded-xl p-3">
@@ -165,42 +144,6 @@ export default function CharacterDetails({ character, onClose }: Props) {
                     </div>
                   </Section>
                 </>
-              ) : (
-                <>
-                  {/* System Prompt */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-white/40 text-xs font-medium uppercase tracking-wider">System Prompt</h4>
-                      <CopyButton text={character.system_prompt} />
-                    </div>
-                    <div className="bg-zinc-900 border border-white/8 rounded-xl p-4">
-                      <p className="text-white/70 text-xs leading-relaxed font-mono whitespace-pre-wrap">{character.system_prompt}</p>
-                    </div>
-                  </div>
-
-                  {/* Avatar Prompt */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-white/40 text-xs font-medium uppercase tracking-wider">Avatar Prompt</h4>
-                      <CopyButton text={character.avatar_prompt} />
-                    </div>
-                    <div className="bg-zinc-900 border border-white/8 rounded-xl p-4">
-                      <p className="text-white/70 text-xs leading-relaxed font-mono">{character.avatar_prompt}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="bg-white/5 rounded-xl p-4">
-                      <h4 className="text-white/40 text-xs mb-1">Communication Style</h4>
-                      <p className="text-white/80 text-sm">{character.communication_style}</p>
-                    </div>
-                    <div className="bg-white/5 rounded-xl p-4">
-                      <h4 className="text-white/40 text-xs mb-1">Interaction Style</h4>
-                      <p className="text-white/80 text-sm">{character.interaction_style}</p>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </motion.div>
         </>
@@ -208,3 +151,4 @@ export default function CharacterDetails({ character, onClose }: Props) {
     </AnimatePresence>
   );
 }
+

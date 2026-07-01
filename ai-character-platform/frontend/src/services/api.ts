@@ -1,4 +1,4 @@
-import type { Character, CharacterListResponse, GenerateRequest, StatsResponse } from '../types/character';
+import type { Character, CharacterListResponse, GenerateRequest, StatsResponse, ChatMessage, ChatHistoryResponse, ChatListResponse } from '../types/character';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api/v1';
 export const BACKEND_BASE = BASE_URL.replace(/\/api\/v1\/?$/i, '');
@@ -70,4 +70,22 @@ export const api = {
 
   bulkGenerateAvatars: (limit: number = 20): Promise<{ updated: number; total_processed: number }> =>
     request(`/characters/generate-avatars-bulk?limit=${limit}`, { method: 'POST' }),
+
+  getChatHistory: (characterId: string): Promise<ChatHistoryResponse> =>
+    request(`/chat/${characterId}`),
+
+  sendChatMessage: (characterId: string, message: string): Promise<ChatMessage> =>
+    request(`/chat/${characterId}`, {
+      method: 'POST',
+      body: JSON.stringify({ message }),
+    }),
+
+  getChatList: (): Promise<ChatListResponse> =>
+    request('/chats'),
+
+  toggleFavorite: (characterId: string): Promise<{ character_id: string; is_favorite: boolean }> =>
+    request(`/favorites/${characterId}/toggle`, { method: 'POST' }),
+
+  getFavorites: (): Promise<{ character_ids: string[] }> =>
+    request('/favorites'),
 };
