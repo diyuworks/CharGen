@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Sparkles, Users, Crown, Heart, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 import { api, normalizeAvatarUrl } from "../services/api";
 import type { Character } from "../types/character";
 import { Link } from "react-router-dom";
@@ -8,6 +9,7 @@ import { useFavorites } from "../hooks/useFavorites";
 import CharacterDetails from "../components/CharacterDetails";
 
 const CATEGORIES = ["All", "❤️ Favorites", "College Student", "Researcher", "Fitness Trainer", "Artist", "Influencer", "Software Engineer"];
+const GENDERS = ["Any", "Male", "Female"];
 
 function CharacterCard({ character, onClick, onFavorite, isFav, onDelete }: {
   character: Character;
@@ -89,6 +91,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [activeGender, setActiveGender] = useState("Any");
   const [selected, setSelected] = useState<Character | null>(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -96,14 +99,24 @@ export default function Dashboard() {
   const { toggle, isFavorite } = useFavorites();
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this character?")) return;
+    const toastId = toast.loading("Deleting...");
     try {
       await api.deleteCharacter(id);
       setCharacters(c => c.filter(x => x.id !== id));
       setTotal(t => t - 1);
-    } catch (err) {
-      alert("Failed to delete");
+      if (selected?.id === id) setSelected(null);
+      toast.success("Character deleted", { id: toastId });
+    } catch {
+      toast.error("Failed to delete", { id: toastId });
     }
+  };
+
+  const handleFavorite = (id: string) => {
+    const wasLiked = isFavorite(id);
+    toggle(id);
+    toast(wasLiked ? "Removed from favorites" : "Added to favorites ❤️", {
+      icon: wasLiked ? "💔" : "❤️",
+    });
   };
 
   useEffect(() => {
@@ -117,16 +130,22 @@ export default function Dashboard() {
       setCharacters(res.characters.sort(() => Math.random() - 0.5));
       setTotal(res.total);
       setLoading(false);
-    }).catch(() => setLoading(false));
+    }).catch(() => {
+      setLoading(false);
+      toast.error("Failed to load characters");
+    });
   }, [page, activeCategory, search, seed]);
 
-  const displayedCharacters = activeCategory === "❤️ Favorites"
-    ? characters.filter(c => isFavorite(c.id))
-    : characters;
+  const displayedCharacters = characters.filter(c => {
+    if (activeCategory === "❤️ Favorites" && !isFavorite(c.id)) return false;
+    if (activeGender === "Male" && c.gender !== "male") return false;
+    if (activeGender === "Female" && c.gender !== "female") return false;
+    return true;
+  });
 
   return (
     <div className="min-h-screen" style={{ background: "transparent" }}>
-      <div className="sticky top-0 z-40 backdrop-blur-xl border-b border-white/5 px-6 py-4" style={{ background: "rgba(8,5,18,0.9)" }}>
+      <div className="sticky top-0 z-40 backdrop-blur-xl border-b border-white/5 px-4 md:px-6 py-4" style={{ background: "rgba(8,5,18,0.9)" }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -145,7 +164,8 @@ export default function Dashboard() {
               placeholder="Search characters..."
               className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-white text-sm placeholder-white/20 focus:outline-none focus:border-violet-500/40" />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-1">
+          {/* Category chips */}
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
             {CATEGORIES.map(cat => (
               <button key={cat} onClick={() => { setActiveCategory(cat); setPage(1); }}
                 className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-all ${activeCategory === cat ? "bg-violet-500 text-white" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70"}`}>
@@ -153,9 +173,25 @@ export default function Dashboard() {
               </button>
             ))}
           </div>
+          {/* Gender filter chips */}
+          <div className="flex gap-2">
+            {GENDERS.map(g => (
+              <button key={g} onClick={() => setActiveGender(g)}
+                className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                  activeGender === g
+                    ? g === "Male" ? "bg-cyan-500/30 border border-cyan-500/50 text-cyan-300"
+                      : g === "Female" ? "bg-rose-500/30 border border-rose-500/50 text-rose-300"
+                      : "bg-violet-500 text-white"
+                    : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70 border border-transparent"
+                }`}>
+                {g === "Male" ? "♂ Male" : g === "Female" ? "♀ Female" : "⚡ Any"}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-6 py-6">
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-6">
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {Array.from({ length: 12 }).map((_, i) => (
@@ -163,11 +199,23 @@ export default function Dashboard() {
             ))}
           </div>
         ) : displayedCharacters.length === 0 ? (
-          <div className="text-center py-20 text-white/30">
-            <Users size={32} className="mx-auto mb-3 opacity-30" />
-            <p>{activeCategory === "❤️ Favorites" ? "No favorites yet — heart a character!" : "No characters found"}</p>
+          <div className="text-center py-24 text-white/30">
+            <Users size={40} className="mx-auto mb-4 opacity-20" />
+            <p className="text-white/50 font-medium mb-1">
+              {activeCategory === "❤️ Favorites" ? "No favorites yet" : "No characters found"}
+            </p>
+            <p className="text-white/30 text-sm mb-4">
+              {activeCategory === "❤️ Favorites"
+                ? "Heart a character to save them here"
+                : search
+                  ? `No results for "${search}"`
+                  : "Try a different filter or generate some characters"}
+            </p>
             {activeCategory !== "❤️ Favorites" && (
-              <Link to="/generate" className="text-violet-400 text-sm mt-2 block hover:text-violet-300">Generate some →</Link>
+              <Link to="/generate"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium rounded-full transition-colors">
+                <Sparkles size={14} /> Generate Characters
+              </Link>
             )}
           </div>
         ) : (
@@ -177,7 +225,7 @@ export default function Dashboard() {
                 key={char.id}
                 character={char}
                 onClick={() => setSelected(char)}
-                onFavorite={toggle}
+                onFavorite={handleFavorite}
                 isFav={isFavorite(char.id)}
                 onDelete={handleDelete}
               />
@@ -194,10 +242,12 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
       {selected && (
         <CharacterDetails
           character={selected}
           onClose={() => setSelected(null)}
+          onDelete={handleDelete}
         />
       )}
     </div>

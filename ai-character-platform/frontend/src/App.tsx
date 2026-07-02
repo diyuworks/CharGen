@@ -1,13 +1,16 @@
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Sparkles, Images, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, Sparkles, Images, MessageCircle, Heart } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 import Dashboard from './pages/Dashboard';
 import GenerateCharacter from './pages/GenerateCharacter';
 import Gallery from './pages/Gallery';
 import ChatPage from './pages/ChatPage';
 import ChatList from './pages/ChatList';
+import Swipe from './pages/Swipe';
 
 const NAV = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', end: true },
+  { to: '/swipe', icon: Heart, label: 'Swipe' },
   { to: '/generate', icon: Sparkles, label: 'Generate' },
   { to: '/gallery', icon: Images, label: 'Gallery' },
   { to: '/chats', icon: MessageCircle, label: 'Chats' },
@@ -28,9 +31,9 @@ function AppShell() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex">
-      {/* Sidebar */}
-      <aside className="w-56 shrink-0 border-r border-white/8 flex flex-col p-4 sticky top-0 h-screen">
+    <div className="min-h-screen bg-zinc-950 text-white flex flex-col md:flex-row">
+      {/* Sidebar — tablet/desktop only */}
+      <aside className="hidden md:flex w-56 shrink-0 border-r border-white/8 flex-col p-4 sticky top-0 h-screen">
         {/* Logo */}
         <div className="px-2 mb-8 mt-2">
           <div className="flex items-center gap-2">
@@ -67,17 +70,40 @@ function AppShell() {
         </div>
       </aside>
 
-      {/* Main */}
-      <main className="flex-1 p-8 overflow-auto">
+      {/* Main — extra bottom padding on phone to clear the tab bar */}
+      <main className="flex-1 p-4 md:p-8 overflow-auto pb-24 md:pb-8">
         <div className="max-w-7xl mx-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/swipe" element={<Swipe />} />
             <Route path="/generate" element={<GenerateCharacter />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/chats" element={<ChatList />} />
           </Routes>
         </div>
       </main>
+
+      {/* Bottom tab bar — phone only */}
+      <nav
+        className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-t border-white/8 flex items-stretch px-1 py-1.5"
+        style={{ paddingBottom: 'calc(0.375rem + env(safe-area-inset-bottom))' }}
+      >
+        {NAV.map(({ to, icon: Icon, label, end }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            className={({ isActive }) =>
+              `flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl text-[10px] font-medium transition-colors ${
+                isActive ? 'text-violet-300' : 'text-white/40'
+              }`
+            }
+          >
+            <Icon size={18} />
+            {label}
+          </NavLink>
+        ))}
+      </nav>
     </div>
   );
 }
@@ -85,6 +111,20 @@ function AppShell() {
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: '#18181b',
+            color: '#fff',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '12px',
+            fontSize: '13px',
+          },
+          success: { iconTheme: { primary: '#a78bfa', secondary: '#18181b' } },
+          error: { iconTheme: { primary: '#f43f5e', secondary: '#18181b' } },
+        }}
+      />
       <AppShell />
     </BrowserRouter>
   );
