@@ -6,11 +6,12 @@ import asyncio
 
 from app.schemas.chat import ChatMessageResponse, ChatHistoryResponse
 from app.services.character_service import get_character_by_id
+from app.core.config import settings
 
 # Reuse the same NVIDIA client setup pattern as gemini_service.py
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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",
+    api_key=settings.NVIDIA_API_KEY,
 )
 
 # Keep the model context window manageable — only send the most recent N
@@ -122,7 +123,7 @@ def _summarize_messages(character_name: str, messages: list[dict]) -> str:
         for m in messages
     )
     completion = client.chat.completions.create(
-        model="meta/llama-3.1-8b-instruct",
+        model=settings.NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -256,7 +257,7 @@ def _call_nvidia_chat(
     messages.append({"role": "user", "content": user_message})
 
     completion = client.chat.completions.create(
-        model="meta/llama-3.1-8b-instruct",
+        model=settings.NVIDIA_MODEL,
         messages=messages,
         temperature=0.9,
         top_p=0.95,

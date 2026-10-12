@@ -35,7 +35,7 @@ async def connect_db():
     # One favorite doc per character (existence = favorited)
     await db.favorites.create_index("character_id", unique=True)
 
-    print(f"✅ Connected to MongoDB: {settings.MONGODB_DB_NAME}")
+    print(f"[OK] Connected to MongoDB: {settings.MONGODB_DB_NAME}")
     return db
 
 
@@ -43,7 +43,7 @@ async def disconnect_db():
     global client
     if client:
         client.close()
-        print("🔌 Disconnected from MongoDB")
+        print("[INFO] Disconnected from MongoDB")
 
 
 def get_database():
