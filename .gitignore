@@ -5,18 +5,29 @@ package-lock.json
 # Build output
 dist/
 build/
+frontend/dist/
+frontend/build/
 
-# Environment variables (SENSITIVE - never push these!)
+# Environment variables & secrets (SENSITIVE - never push these!)
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+*.bak
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 venv/
 .venv/
+.pytest_cache/
+*.egg-info/
+
+# Logs & Metrics (Local & benchmark runs)
+*.jsonl
+generation_metrics.jsonl
+logs/
+*.log
 
 # OS files
 .DS_Store
@@ -25,8 +36,10 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+*.suo
+*.user
 
-# Temporary/test files
+# Temporary / test files
 *.zip
 test_avatar.png
 test_pollinations.py
@@ -34,5 +47,7 @@ diff_frontend.txt
 diff_full.txt
 full_frontend_diff.txt
 
-# Static uploads
+# Static uploads / local generated assets
 ai-character-platform/backend/static/
+backend/static/avatars/
+static/avatars/

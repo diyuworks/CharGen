@@ -8,9 +8,12 @@ After cloning the repo, you need to create 2 `.env` files:
 **Path:** `ai-character-platform/backend/.env`
 
 ```env
-NVIDIA_API_KEY=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
+NVIDIA_API_KEY=nvapi-your-key-here
+NVIDIA_MODEL=meta/llama-3.2-11b-vision-instruct
 MONGODB_URL=mongodb://localhost:27017
 MONGODB_DB_NAME=ai_characters
+POLLINATIONS_API_KEY=
+STABLE_HORDE_API_KEY=
 DEBUG=True
 ```
 
