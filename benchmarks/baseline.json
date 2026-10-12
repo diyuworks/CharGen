@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-10-12T12:05:00Z",
+  "chat_prompt_reduction": {
+    "10": {
+      "conversation_messages": 10,
+      "full_history_tokens": 231,
+      "chargen_windowed_tokens": 231,
+      "tokens_saved": 0,
+      "reduction_percent": 0.0
+    },
+    "20": {
+      "conversation_messages": 20,
+      "full_history_tokens": 388,
+      "chargen_windowed_tokens": 388,
+      "tokens_saved": 0,
+      "reduction_percent": 0.0
+    },
+    "50": {
+      "conversation_messages": 50,
+      "full_history_tokens": 828,
+      "chargen_windowed_tokens": 446,
+      "tokens_saved": 382,
+      "reduction_percent": 46.14
+    },
+    "100": {
+      "conversation_messages": 100,
+      "full_history_tokens": 1428,
+      "chargen_windowed_tokens": 400,
+      "tokens_saved": 1028,
+      "reduction_percent": 71.99
+    }
+  },
+  "frontend_production_bundle": {
+    "js_size_kb": 357.37,
+    "js_gzip_kb": 112.86,
+    "css_size_kb": 31.85,
+    "css_gzip_kb": 6.35,
+    "html_size_kb": 0.45,
+    "html_gzip_kb": 0.29
+  },
+  "tests_baseline": {
+    "existing_test_count": 0,
+    "pass_rate_pct": 0.0,
+    "coverage_pct": 0.0,
+    "status": "No test suite currently registered in repo"
+  }
+}

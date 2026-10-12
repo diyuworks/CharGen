@@ -51,3 +51,6 @@ full_frontend_diff.txt
 ai-character-platform/backend/static/
 backend/static/avatars/
 static/avatars/
+
+.coverage
+.coverage.*
