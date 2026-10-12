@@ -1,4 +1,4 @@
-﻿import httpx
+import httpx
 import asyncio
 import os
 import time
@@ -20,35 +20,31 @@ os.makedirs(AVATAR_DIR, exist_ok=True)
 
 # Realism suffix  gender placeholder replaced dynamically
 REALISM_SUFFIX_FEMALE = (
-    ", photorealistic, hyperrealistic, real human skin texture, "
+    ", RAW photo, 8k uhd, dslr, high quality, film grain, Fujifilm XT3, "
+    "professional headshot photo portrait, real human skin texture, "
     "natural facial pores, subsurface scattering, real human eyes, "
-    "professional studio lighting, sharp focus, DSLR photography, "
-    "Canon EOS 5D, 85mm lens, f/1.8 aperture, 8k resolution, "
-    "female, woman, NOT anime, NOT cartoon, NOT illustration"
+    "professional studio lighting, sharp focus, 85mm lens, f/1.8 aperture, "
+    "female, woman, photorealistic, hyperrealistic, NOT anime, NOT cartoon, NOT illustration"
 )
 
 REALISM_SUFFIX_MALE = (
-    ", photorealistic, hyperrealistic, real human skin texture, "
+    ", RAW photo, 8k uhd, dslr, high quality, film grain, Fujifilm XT3, "
+    "professional headshot photo portrait, real human skin texture, "
     "natural facial pores, subsurface scattering, real human eyes, "
-    "professional studio lighting, sharp focus, DSLR photography, "
-    "Canon EOS 5D, 85mm lens, f/1.8 aperture, 8k resolution, "
-    "male, man, NOT anime, NOT cartoon, NOT illustration"
+    "professional studio lighting, sharp focus, 85mm lens, f/1.8 aperture, "
+    "male, man, photorealistic, hyperrealistic, NOT anime, NOT cartoon, NOT illustration"
 )
 
 NEGATIVE_PROMPT_FEMALE = (
-    "male, man, boy, masculine, ugly, deformed, blurry, low quality, "
-    "anime, cartoon, drawing, illustration, 3d render, CGI, animated, "
-    "painting, digital art, unrealistic, plastic skin, doll, wax figure, "
-    "extra fingers, bad anatomy, bad hands, missing limbs, "
-    "watermark, signature, text, logo, border, frame"
+    "male, man, boy, cartoon, 3d, cgi, anime, illustration, painting, drawing, "
+    "digital art, smooth skin, plastic skin, doll, wax figure, unrealistic, "
+    "bad eyes, bad anatomy, deformed, ugly, extra fingers, blurry, watermark, signature"
 )
 
 NEGATIVE_PROMPT_MALE = (
-    "female, woman, girl, feminine, ugly, deformed, blurry, low quality, "
-    "anime, cartoon, drawing, illustration, 3d render, CGI, animated, "
-    "painting, digital art, unrealistic, plastic skin, doll, wax figure, "
-    "extra fingers, bad anatomy, bad hands, missing limbs, "
-    "watermark, signature, text, logo, border, frame"
+    "female, woman, girl, cartoon, 3d, cgi, anime, illustration, painting, drawing, "
+    "digital art, smooth skin, plastic skin, doll, wax figure, unrealistic, "
+    "bad eyes, bad anatomy, deformed, ugly, extra fingers, blurry, watermark, signature"
 )
 
 
@@ -101,47 +97,39 @@ async def _generate_pollinations(prompt: str, gender: str = "female") -> bytes |
     encoded_prompt = urllib.parse.quote(prompt)
     encoded_negative = urllib.parse.quote(negative)
 
-    url = (
-        f"https://image.pollinations.ai/prompt/{encoded_prompt}"
-        f"?negative={encoded_negative}"
-        f"&width=512&height=512"
-        f"&model=flux"
-        f"&nologo=true"
-    )
-
     headers = {}
     if POLLINATIONS_KEY:
         headers["Authorization"] = f"Bearer {POLLINATIONS_KEY}"
 
-    print(f" Pollinations URL: {url[:100]}...")
+    # Try models: prioritize 'sana' (active free model) then fallbacks
+    models_to_try = ["flux", "sana", "turbo", ""] if POLLINATIONS_KEY else ["sana", "turbo", "", "flux"]
 
-    max_retries = 2
-    for attempt in range(1, max_retries + 1):
-        async with httpx.AsyncClient(timeout=45) as client:
+    async with httpx.AsyncClient(timeout=45) as client:
+        for model in models_to_try:
+            model_param = f"&model={model}" if model else ""
+            url = (
+                f"https://image.pollinations.ai/prompt/{encoded_prompt}"
+                f"?negative={encoded_negative}"
+                f"&width=512&height=512"
+                f"{model_param}"
+                f"&nologo=true"
+            )
+            print(f" Pollinations URL ({model or 'default'}): {url[:90]}...")
             try:
                 response = await client.get(url, headers=headers)
-                if response.status_code == 200:
-                    if len(response.content) > 1000:
-                        return response.content
-                    print(f" Pollinations 200 but payload too small ({len(response.content)} bytes)")
-                    return None
-                elif response.status_code in (429, 500, 502, 503, 504) and attempt < max_retries:
-                    print(f" Pollinations transient error {response.status_code} on attempt {attempt}, retrying in {attempt * 2}s...")
-                    await asyncio.sleep(attempt * 2)
+                if response.status_code == 200 and len(response.content) > 1000:
+                    return response.content
+                elif response.status_code in (402, 500, 502, 503, 504):
+                    print(f" Pollinations {model or 'default'} returned {response.status_code}, trying next model option...")
+                    await asyncio.sleep(1)
                     continue
-                else:
-                    body_preview = response.text[:200].replace("\n", " ")
-                    print(f" Pollinations error {response.status_code}: {body_preview}")
-                    return None
             except httpx.TimeoutException:
-                print(f" Pollinations timeout (>45s) on attempt {attempt}")
-                if attempt < max_retries:
-                    await asyncio.sleep(2)
-                    continue
-                return None
+                print(f" Pollinations timeout on model {model or 'default'}")
+                continue
             except Exception as e:
-                print(f" Pollinations request failed: {e}")
-                return None
+                print(f" Pollinations error: {e}")
+                continue
+
     return None
 
 
@@ -155,17 +143,23 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
     negative = NEGATIVE_PROMPT_MALE if gender == "male" else NEGATIVE_PROMPT_FEMALE
 
     payload = {
-        "prompt": prompt,
-        "negative_prompt": negative,
+        "prompt": f"{prompt} ### {negative}",
         "params": {
             "width": 512,
             "height": 512,
-            "steps": 25,
+            "steps": 20,
             "cfg_scale": 7.0,
-            "sampler_name": "k_dpm_2_a",
+            "sampler_name": "k_euler",
             "n": 1,
         },
-        "models": ["Realistic Vision"],
+        "models": [
+            "Realistic Vision",
+            "AbsoluteReality",
+            "ICBINP - I Can't Believe It's Not Photography",
+            "Deliberate 3.0",
+            "CyberRealistic Pony",
+            "RealBiter",
+        ],
         "r2": False,
         "shared": False,
     }
@@ -183,7 +177,7 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
 
         if response.status_code == 403:
             body = response.text[:200].replace("\n", " ")
-            print(f" Stable Horde 403 (Kudos/Demand limited): {body}. Falling back immediately.")
+            print(f" Stable Horde 403: {body}")
             return None
         elif response.status_code != 202:
             print(f" Stable Horde submit error {response.status_code}: {response.text[:200]}")
@@ -196,10 +190,10 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
 
         print(f" Stable Horde job submitted: {job_id}")
 
-        # Polling: max 12 checks at 5s interval (total max 60s)
-        max_poll_attempts = 12
+        # Polling: check every 4s, up to 35 attempts (~140s max)
+        max_poll_attempts = 35
         for attempt in range(max_poll_attempts):
-            await asyncio.sleep(5)
+            await asyncio.sleep(4)
 
             try:
                 status_response = await client.get(
@@ -231,7 +225,7 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
                                 img_data = img_data.split(",")[1]
                             return base64.b64decode(img_data)
 
-        print(" Stable Horde timed out (>60s wait)")
+        print(" Stable Horde timed out after polling wait")
         return None
 
 
@@ -278,17 +272,18 @@ async def generate_avatar_for_character(
     tier_used = None
     is_ai_image = False
 
-    # 1 Try Pollinations first
-    image_bytes = await _generate_pollinations(prompt, gender)
+    # 1. Try Stable Horde first (Tier 1 for photorealistic studio photography)
+    print(" Attempting Tier 1: Stable Horde (photorealistic models)...")
+    image_bytes = await _generate_stable_horde(prompt, gender)
     if image_bytes:
-        tier_used = "tier1_pollinations"
+        tier_used = "tier1_stable_horde"
         is_ai_image = True
     else:
-        # 2 Fallback to Stable Horde
-        print(" Pollinations failed, trying Stable Horde...")
-        image_bytes = await _generate_stable_horde(prompt, gender)
+        # 2. Fallback to Pollinations if Horde is unavailable
+        print(" Stable Horde unavailable/timed out, attempting Tier 2: Pollinations...")
+        image_bytes = await _generate_pollinations(prompt, gender)
         if image_bytes:
-            tier_used = "tier2_stable_horde"
+            tier_used = "tier2_pollinations"
             is_ai_image = True
         else:
             tier_used = "tier3_dicebear"

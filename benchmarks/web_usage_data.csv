@@ -1,0 +1,15 @@
+Metric,Value,Sample Size (n),95% Wilson CI,Notes
+Character Generation Total,22,22,-,Website-source generation calls
+Raw JSON Failure Rate,9.09%,22,"[2.53%, 27.81%]",First attempt failed json.loads
+Pipeline Final Success Rate,100.0%,22,"[85.13%, 100.0%]",Post repair / retry pipeline success
+Character Gen Latency p50,9.11s,22,-,Median latency
+Character Gen Latency p95,23.13s,22,-,95th percentile latency
+Avatar Generation Total,26,26,-,Total avatar cascade calls
+Avatar Tier 1 (Pollinations),30.77% (8),26,-,Resolved via Tier 1
+Avatar Tier 2 (Stable Horde),23.08% (6),26,-,Resolved via Tier 2
+Avatar Tier 3 (DiceBear),46.15% (12),26,-,Resolved via Tier 3 fallback
+Real AI Image %,53.85% (14),26,-,Tier 1 + Tier 2 vs Tier 3
+Chat Messages Sent,0,0,-,Total interactive chat turns
+Chat Latency p50 / p95,0.0s / 0.0s,0,-,Response latency
+Chat Summaries Generated,0,0,-,Memory summaries triggered (>20 msgs)
+Chat Summary Latency p50 / p95,0.0s / 0.0s,0,-,Summarization latency

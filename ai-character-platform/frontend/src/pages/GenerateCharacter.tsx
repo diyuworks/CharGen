@@ -20,7 +20,7 @@ export default function GenerateCharacter() {
   // (or we give up after maxAttempts) and patches it into state in place.
   const pollForAvatars = (ids: string[]) => {
     let attempt = 0;
-    const maxAttempts = 20; // ~50s at 2.5s interval — covers Pollinations easily, most Stable Horde fallbacks too
+    const maxAttempts = 40; // ~80s at 2s interval — accommodates Stable Horde generation
 
     const interval = setInterval(async () => {
       attempt++;
@@ -43,7 +43,7 @@ export default function GenerateCharacter() {
       } catch {
         if (attempt >= maxAttempts) clearInterval(interval);
       }
-    }, 2500);
+    }, 2000);
   };
 
   const handleGenerate = async (

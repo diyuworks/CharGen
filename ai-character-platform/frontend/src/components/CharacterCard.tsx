@@ -36,14 +36,6 @@ function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 }
 
-function buildAvatarFallbackUrl(character: Character): string {
-  const seed = encodeURIComponent(character.name + character.nationality);
-  const colors = ['b6e3f4', 'c0aede', 'd1d4f9', 'ffd5dc', 'ffdfbf', 'c1f4c5'];
-  const color = colors[character.name.charCodeAt(0) % colors.length];
-  const style = character.gender === 'male' ? 'personas' : 'lorelei';
-  return `https://api.dicebear.com/7.x/${style}/png?seed=${seed}&backgroundColor=${color}&size=256`;
-}
-
 export default function CharacterCard({ character, onView, onDelete }: Props) {
   const idx = getIdx(character.name);
   const accent = ACCENT_COLORS[idx];
@@ -55,8 +47,6 @@ export default function CharacterCard({ character, onView, onDelete }: Props) {
   const [liked, setLiked] = useState(false);
 
   const backendAvatar = normalizeAvatarUrl(character.avatar_url);
-  const avatarSrc = backendAvatar ?? buildAvatarFallbackUrl(character);
-  const isRealPhoto = Boolean(backendAvatar);
 
   useEffect(() => {
     setImgLoaded(false);
@@ -83,30 +73,37 @@ export default function CharacterCard({ character, onView, onDelete }: Props) {
         {/* Gradient background */}
         <div className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-20`} />
 
-        {/* Avatar image */}
-        {!imgError && (
+        {/* Avatar image if backendAvatar exists */}
+        {backendAvatar && !imgError && (
           <img
-            src={avatarSrc!}
+            src={backendAvatar}
             alt={character.name}
-            className={`transition-all duration-700 z-10 relative ${
-              isRealPhoto
-                ? `w-full h-full object-cover absolute inset-0 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`
-                : `w-44 h-44 object-contain ${imgLoaded ? 'opacity-100' : 'opacity-0'}`
+            className={`transition-all duration-700 z-10 relative w-full h-full object-cover absolute inset-0 ${
+              imgLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
             }`}
             onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
           />
         )}
 
-        {/* Loading spinner */}
-        {!imgLoaded && !imgError && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-20">
-            <Loader2 size={24} className="text-white/30 animate-spin" />
-            <span className="text-white/20 text-xs">Loading…</span>
+        {/* Loading / Developing state */}
+        {(!backendAvatar || (!imgLoaded && !imgError)) && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 z-20 bg-zinc-950/40 backdrop-blur-xs">
+            <Loader2 size={24} className="text-purple-400 animate-spin" />
+            <div className="text-center px-4">
+              <span className="text-white/80 text-xs font-medium block">
+                {!backendAvatar ? 'Generating AI Portrait…' : 'Loading Photo…'}
+              </span>
+              {!backendAvatar && (
+                <span className="text-white/40 text-[10px] block mt-0.5">
+                  Ultra-realistic studio photo
+                </span>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Error fallback — initials */}
+        {/* Error fallback — elegant monogram initials */}
         {imgError && (
           <div className="flex flex-col items-center justify-center gap-2 z-10">
             <div className={`w-16 h-16 rounded-full ${solidAccent} opacity-40 flex items-center justify-center`}>

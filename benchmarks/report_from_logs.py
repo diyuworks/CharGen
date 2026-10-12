@@ -109,8 +109,8 @@ def analyze_records(records: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     # Avatar generation
     n_avatar = len(avatar_records)
-    tier1_count = sum(1 for r in avatar_records if r.get("tier_used") == "tier1_pollinations")
-    tier2_count = sum(1 for r in avatar_records if r.get("tier_used") == "tier2_stable_horde")
+    tier1_count = sum(1 for r in avatar_records if r.get("tier_used") in ("tier1_stable_horde", "tier1_pollinations"))
+    tier2_count = sum(1 for r in avatar_records if r.get("tier_used") in ("tier2_pollinations", "tier2_stable_horde"))
     tier3_count = sum(1 for r in avatar_records if r.get("tier_used") == "tier3_dicebear")
     ai_avatar_count = sum(1 for r in avatar_records if r.get("is_ai_image", False))
 
@@ -315,8 +315,8 @@ def write_markdown(summary: Dict[str, Any], filepath: Path) -> None:
 
 | Tier | Provider | Count | Split (%) | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tier 1** | Pollinations AI (Flux) | {summary['tier1_count']} | {summary['tier1_pct']}% | Primary realistic AI generator |
-| **Tier 2** | Stable Horde | {summary['tier2_count']} | {summary['tier2_pct']}% | Distributed async AI fallback |
+| **Tier 1** | Primary AI (Stable Horde Photorealistic / Pollinations) | {summary['tier1_count']} | {summary['tier1_pct']}% | Primary realistic AI generator |
+| **Tier 2** | Secondary AI (Pollinations / Horde Fallback) | {summary['tier2_count']} | {summary['tier2_pct']}% | Secondary AI generation tier |
 | **Tier 3** | DiceBear | {summary['tier3_count']} | {summary['tier3_pct']}% | Deterministic SVG fallback |
 | **Total AI**| Tier 1 + Tier 2 | {summary['ai_avatar_count']} | **{summary['ai_pct']}%** | Real AI generated images |
 
