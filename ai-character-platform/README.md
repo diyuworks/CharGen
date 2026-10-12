@@ -1,181 +1,115 @@
-# AI Female Character Platform
+# CharGen: Full-Stack AI Character Generation & Interactive Chat Platform
 
-Scalable AI character generation platform — generates realistic female characters using Google Gemini, stores them in MongoDB, and serves them via a FastAPI backend + React frontend.
-
-Built for 10M+ characters with proper pagination, indexing, and batch generation.
+An end-to-end AI character platform featuring structured character synthesis, a 3-tier avatar generation cascade, and real-time interactive messaging with running memory summarization.
 
 ---
 
-## Architecture
+## 🏗️ Architecture Overview
 
-```
-Frontend (React + Vite)     ──►  Backend (FastAPI)  ──►  MongoDB
-                                        │
-                                  Google Gemini API
-```
-
-### What it does (Phase 1 — this repo)
-- Generate realistic female characters (name, backstory, personality, system prompt, avatar prompt, etc.)
-- Store characters in MongoDB with indexes for fast queries
-- Browse/search/filter characters in a gallery
-- View full character details including copy-ready system prompts
-
-### What comes next (Phase 2 — other team)
-- Avatar image generation using stored `avatar_prompt`
-- Chat integration using stored `system_prompt`
+- **Backend**: FastAPI (Python 3.10+) with async route handlers, application lifespan database management ([main.py:L19-31](file:///ai-character-platform/backend/app/main.py#L19-L31)), and Motor (`AsyncIOMotorClient`) for non-blocking MongoDB interactions ([database.py:L1-40](file:///ai-character-platform/backend/app/core/database.py#L1-L40)).
+- **Frontend**: React 18 with TypeScript, Vite, Tailwind CSS, Lucide Icons, and Framer Motion for touch/drag gesture character discovery ([Swipe.tsx:L1-186](file:///ai-character-platform/frontend/src/pages/Swipe.tsx#L1-L186)).
+- **LLM Engine**: NVIDIA NIM API running `meta/llama-3.2-11b-vision-instruct` ([config.py:L13](file:///ai-character-platform/backend/app/core/config.py#L13)) for both structured JSON character synthesis and interactive messaging.
+- **Database**: MongoDB with registered indexes for character querying, chronological chat message retrieval, cached conversation summaries, and user favorites ([database.py:L13-37](file:///ai-character-platform/backend/app/core/database.py#L13-L37)).
 
 ---
 
-## Prerequisites
+## ✨ Engineering Implementation & Pipeline Details
 
-- Python 3.11+
-- Node.js 18+
-- MongoDB (local or Atlas)
-- Google Gemini API key → https://aistudio.google.com/
+### 1. JSON Generation & Repair Engine
+Small vision-instruct LLMs can generate malformed JSON syntax (unescaped quotes, smart quotes, trailing commas, or markdown code fences) that causes strict deserializers to fail.
+- **Bracket-Depth Extraction** ([gemini_service.py:L34-57](file:///ai-character-platform/backend/app/services/gemini_service.py#L34-L57)): Traverses raw text tracking bracket nesting depth to extract balanced JSON candidates without relying on markdown code blocks.
+- **Syntax Normalization Heuristics** ([gemini_service.py:L60-77](file:///ai-character-platform/backend/app/services/gemini_service.py#L60-L77)): Normalizes unicode curly/smart quotes (`\u2018`, `\u2019`, `\u201c`, `\u201d`) to straight quotes, strips stray control characters, and removes trailing commas before `}` or `]`.
+- **Linear Backoff Retries** ([gemini_service.py:L130-187](file:///ai-character-platform/backend/app/services/gemini_service.py#L130-L187)): Up to 5 attempts with linear backoff (`1.5 * attempt` seconds) if validation or JSON decoding fails.
+
+### 2. 3-Tier Avatar Generation Cascade
+Ensures every character receives an avatar image by falling back across tiers ([avatar_service.py:L281-296](file:///ai-character-platform/backend/app/services/avatar_service.py#L281-L296)):
+- **Tier 1 (Pollinations AI / Flux)** ([avatar_service.py:L98-146](file:///ai-character-platform/backend/app/services/avatar_service.py#L98-L146)): Primary realistic image generation with a 45s HTTP timeout and a 2-attempt transient error retry loop.
+- **Tier 2 (Stable Horde)** ([avatar_service.py:L148-235](file:///ai-character-platform/backend/app/services/avatar_service.py#L148-L235)): Distributed async fallback submitting jobs and polling up to 12 times at 5s intervals (60s maximum wait). Immediately falls back if HTTP 403 (kudos/demand limit) is returned.
+- **Tier 3 (DiceBear SVG Fallback)** ([avatar_service.py:L246-258](file:///ai-character-platform/backend/app/services/avatar_service.py#L246-L258)): Falls back to a deterministic DiceBear vector avatar (using character name and gender seeds) when AI tiers fail or time out.
+
+### 3. Interactive Chat with Hybrid Sliding-Window Memory
+- **Verbatim Window** ([chat_service.py:L21, L157-162](file:///ai-character-platform/backend/app/services/chat_service.py#L21)): Retains the 20 most recent messages (`MAX_HISTORY_MESSAGES = 20`) verbatim in the prompt context.
+- **Inline Running Summaries** ([chat_service.py:L163-181](file:///ai-character-platform/backend/app/services/chat_service.py#L163-L181)): When chat history exceeds 20 messages, older messages are summarized inline during the request (thread-delegated via `asyncio.to_thread(_summarize_messages)` at line 171) into 3–5 factual memory bullet points, cached and upserted in the MongoDB `chat_summaries` collection.
+- **Persona Behavior Wrapper** ([chat_service.py:L206-240](file:///ai-character-platform/backend/app/services/chat_service.py#L206-L240)): Enforces concise texting habits (1–3 sentences default, contractions, natural warmth, authentic reactions to nonsensical input, zero AI assistant disclaimers).
+
+### 4. Discovery & State Management
+- **Swipe Discovery Deck** ([Swipe.tsx:L1-186](file:///ai-character-platform/frontend/src/pages/Swipe.tsx#L1-L186)): Framer Motion gesture swipe deck supporting touch drag, card rotations, and like/pass actions.
+- **Favorites Persistence** ([useFavorites.ts:L1-33](file:///ai-character-platform/frontend/src/hooks/useFavorites.ts#L1-L33)): Client-side optimistic toggle reconciled against backend MongoDB `/api/v1/favorites` endpoints.
 
 ---
 
-## Backend Setup
+## 📊 Empirical Reliability Benchmarks
 
+All metrics were empirically measured using unconstrained model calls against `meta/llama-3.2-11b-vision-instruct` and recorded in [benchmarks/results_v2.json](file:///benchmarks/results_v2.json):
+
+### Character JSON Generation Benchmark ($n = 100$ calls)
+- **Model**: `meta/llama-3.2-11b-vision-instruct`
+- **Raw JSON First-Attempt Failure Rate**: **14.0%** (14/100, 95% Wilson CI: `[8.53%, 22.14%]`)
+- **Final Pipeline Success Rate**: **100.0%** (100/100, 95% Wilson CI: `[96.30%, 100.0%]`)
+- **Attempts Distribution**: 86 resolved on Attempt 1; 11 resolved on Attempt 2; 2 resolved on Attempt 3; 1 resolved on Attempt 4; 0 failures.
+- **Average Latency**: 14.85 seconds.
+
+### Avatar Generation Cascade Benchmark
+Evaluated across separate runs in `benchmarks/results_v2.json`:
+
+| Run Mode | Sample Size ($n$) | Tier 1 (Pollinations) | Tier 2 (Stable Horde) | Tier 3 (DiceBear Fallback) | Real AI Image % (95% Wilson CI) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Old (Burst / Unauthenticated)** | $n = 30$ | 1 / 30 (3.33%) | 0 / 30 (0.00%) | 29 / 30 (96.67%) | 3.33% `[0.59%, 16.67%]` |
+| **New (Resilient / Spaced)** | $n = 30$ | 3 / 30 (10.00%) | 0 / 30 (0.00%) | 27 / 30 (90.00%) | 10.00% `[3.46%, 25.62%]` |
+| **Pooled Total** | $n = 60$ pooled | 4 / 60 (6.67%) | 0 / 60 (0.00%) | 56 / 60 (93.33%) | 6.67% `[2.62%, 15.89%]` |
+
+*Note: Stable Horde (Tier 2) returned HTTP 403 kudos limits during test runs; the cascade smoothly fell back to Tier 3 DiceBear SVG avatars, resulting in zero unhandled request errors.*
+
+---
+
+## 🚀 Quickstart & Setup
+
+### Prerequisites
+- Node.js 18+ & npm
+- Python 3.10+
+- MongoDB instance running on `localhost:27017`
+- NVIDIA NIM API Key
+
+### 1. Environment Configuration
+Copy `.env.example` templates to `.env`:
 ```bash
-cd backend
+# Backend configuration
+cp ai-character-platform/backend/.env.example ai-character-platform/backend/.env
 
-# Create virtual environment
+# Frontend configuration
+cp ai-character-platform/frontend/.env.example ai-character-platform/frontend/.env
+```
+
+Populate `ai-character-platform/backend/.env`:
+```env
+NVIDIA_API_KEY=your_nvidia_api_key_here
+NVIDIA_MODEL=meta/llama-3.2-11b-vision-instruct
+MONGODB_URL=mongodb://localhost:27017
+MONGODB_DB_NAME=ai_characters
+POLLINATIONS_API_KEY=
+STABLE_HORDE_API_KEY=
+DEBUG=True
+```
+
+### 2. Backend Setup
+```bash
+cd ai-character-platform/backend
 python -m venv venv
-source venv/bin/activate       # Windows: venv\Scripts\activate
-
-# Install dependencies
+# Windows: .\venv\Scripts\activate
+# Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
-
-# Set environment variables
-cp .env.example .env
-# Edit .env and set:
-#   GEMINI_API_KEY=your_key_here
-#   MONGODB_URL=mongodb://localhost:27017
-
-# Run the server
 uvicorn app.main:app --reload --port 8000
 ```
 
-API docs available at: http://localhost:8000/docs
-
----
-
-## Frontend Setup
-
+### 3. Frontend Setup
 ```bash
-cd frontend
-
-# Install dependencies
+cd ai-character-platform/frontend
 npm install
-
-# Set environment variables
-cp .env.example .env
-# VITE_API_URL is already set to http://localhost:8000/api/v1
-
-# Run dev server
 npm run dev
 ```
 
-Frontend available at: http://localhost:5173
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/generate-character` | Generate 1–50 characters |
-| POST | `/api/v1/save-character` | Save a character manually |
-| GET | `/api/v1/characters` | Paginated gallery (search, filter) |
-| GET | `/api/v1/characters/stats` | Dashboard stats |
-| GET | `/api/v1/character/{id}` | Single character |
-| DELETE | `/api/v1/character/{id}` | Delete character |
-
-### Generate request example
-
-```json
-POST /api/v1/generate-character
-{
-  "category": "Doctor",
-  "nationality": "Indian",
-  "count": 5
-}
-```
-
-### List query parameters
-- `page` (default: 1)
-- `page_size` (default: 20, max: 100)
-- `category` — filter by category
-- `nationality` — filter by nationality
-- `search` — full-text search on name/occupation/description
-
----
-
-## Scalability Notes
-
-**For 10M+ characters:**
-
-1. **Batch generation** — use `count: 20` per request (Gemini handles 10 per API call internally)
-2. **MongoDB indexes** — already created on `name`, `category`, `occupation`, `nationality`, `created_at`
-3. **Compound index** — `(category, nationality, created_at)` for filtered gallery queries
-4. **Pagination** — all listing endpoints are paginated, never loads full collection
-5. **Bulk insert** — uses `insert_many` for batch saves
-
-**To run bulk generation (e.g. 10,000 characters):**
+### 4. Running Benchmarks
 ```bash
-# Simple curl loop
-for i in $(seq 1 500); do
-  curl -X POST http://localhost:8000/api/v1/generate-character \
-    -H "Content-Type: application/json" \
-    -d '{"count": 20}'
-  sleep 1
-done
+python benchmarks/reliability_benchmark_v2.py
+python benchmarks/report_from_logs.py
 ```
-
----
-
-## Project Structure
-
-```
-ai-character-platform/
-├── backend/
-│   ├── app/
-│   │   ├── api/routes.py          # FastAPI route handlers
-│   │   ├── core/
-│   │   │   ├── config.py          # Settings from .env
-│   │   │   └── database.py        # MongoDB connection + indexes
-│   │   ├── models/character.py    # MongoDB document model
-│   │   ├── schemas/character.py   # Pydantic request/response schemas
-│   │   ├── services/
-│   │   │   ├── gemini_service.py  # Gemini API + retry logic
-│   │   │   └── character_service.py # CRUD business logic
-│   │   ├── prompts/
-│   │   │   └── character_prompt.py # Gemini prompt templates
-│   │   └── main.py                # App entry point
-│   └── requirements.txt
-│
-└── frontend/
-    └── src/
-        ├── components/            # Reusable UI components
-        ├── pages/                 # Dashboard, Generate, Gallery
-        ├── services/api.ts        # API client
-        └── types/character.ts     # TypeScript types
-```
-
----
-
-## Integration Notes for Chatbot Team
-
-When your team is ready to integrate:
-
-1. Each character already has a `system_prompt` field — pass this directly to your LLM as the system message
-2. Each character has a `greeting` field — use this as the first message shown to users
-3. Each character has an `avatar_prompt` field — pass this to your image generation service (Stable Diffusion, DALL-E, Midjourney API, etc.)
-4. The `GET /api/v1/character/{id}` endpoint returns everything your chatbot needs
-
----
-
-## License
-
-Internal use — [Your Company Name]
