@@ -66,7 +66,7 @@ function AppShell() {
         </nav>
 
         <div className="border-t border-white/8 pt-4 mt-4">
-          <div className="px-2 text-white/20 text-xs">v1.0.0 · Gemini AI</div>
+          <div className="px-2 text-white/20 text-xs">v1.0.0 · Llama 3.1</div>
         </div>
       </aside>
 
