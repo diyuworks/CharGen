@@ -5,7 +5,15 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.database import connect_db, disconnect_db
 from app.api.routes import router
+import sys
 import os
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 
 @asynccontextmanager

@@ -10,6 +10,11 @@ class Settings(BaseSettings):
     MONGODB_DB_NAME: str = "ai_characters"
 
     NVIDIA_API_KEY: str
+    NVIDIA_MODEL: str = "meta/llama-3.2-11b-vision-instruct"
+
+    POLLINATIONS_API_KEY: str = ""
+    STABLE_HORDE_API_KEY: str = "0000000000"
+    METRICS_LOG_PATH: str = "logs/generation_metrics.jsonl"
 
     ALLOWED_ORIGINS: list[str] = ["*"]
 

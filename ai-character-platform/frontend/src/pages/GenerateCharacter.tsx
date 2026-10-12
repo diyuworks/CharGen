@@ -66,7 +66,7 @@ export default function GenerateCharacter() {
         pollForAvatars(pendingIds);
       }
     } catch (err: any) {
-      setError(err.message || 'Generation failed. Check your Gemini API key.');
+      setError(err.message || 'Generation failed. Check your NVIDIA API key.');
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +76,7 @@ export default function GenerateCharacter() {
     <div className="space-y-6">
       <div>
         <h1 className="text-white text-2xl font-bold">Generate Characters</h1>
-        <p className="text-white/40 text-sm mt-1">Create unique AI characters powered by Gemini</p>
+        <p className="text-white/40 text-sm mt-1">Create unique AI characters powered by Llama 3.1</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

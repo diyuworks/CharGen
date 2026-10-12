@@ -4,9 +4,12 @@ import json
 import re
 import random
 import asyncio
+import time
 import unicodedata
 from typing import Optional
 from app.schemas.character import GeneratedCharacterData
+from app.core.config import settings
+from app.core.logging_metrics import log_metric
 from app.prompts.character_prompt import build_character_prompt
 
 REQUIRED_FIELDS = {
@@ -18,7 +21,7 @@ REQUIRED_FIELDS = {
 
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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",
+    api_key=settings.NVIDIA_API_KEY,
 )
 
 
@@ -97,7 +100,7 @@ def _validate_character_dict(data: dict) -> GeneratedCharacterData:
 
 def _call_nvidia(prompt: str) -> str:
     completion = client.chat.completions.create(
-        model="meta/llama-3.1-8b-instruct",
+        model=settings.NVIDIA_MODEL,
         messages=[
             {
                 "role": "system",
@@ -112,6 +115,7 @@ def _call_nvidia(prompt: str) -> str:
             },
             {"role": "user", "content": prompt},
         ],
+        response_format={"type": "json_object"},
         temperature=0.9,
         top_p=0.95,
         max_tokens=2048,
@@ -130,12 +134,23 @@ async def generate_single_character(
 
     prompt = build_character_prompt(category, nationality, gender=gender)
     last_error = None
+    start_time = time.time()
+    raw_succeeded_on_first = False
 
     for attempt in range(1, max_retries + 1):
         raw_text = None
         try:
             print(f"Generating {gender} character (attempt {attempt}/{max_retries})...")
             raw_text = await asyncio.to_thread(_call_nvidia, prompt)
+
+            # Test if raw text was valid on first attempt
+            if attempt == 1:
+                try:
+                    json.loads(raw_text)
+                    raw_succeeded_on_first = True
+                except Exception:
+                    raw_succeeded_on_first = False
+
             data = _try_parse(raw_text)
             if isinstance(data, list):
                 data = data[0]
@@ -143,7 +158,22 @@ async def generate_single_character(
             data["gender"] = gender
 
             character = _validate_character_dict(data)
-            print(f"Generated: {character.name} ({gender})")
+            latency = round(time.time() - start_time, 2)
+            print(f"Generated: {character.name} ({gender}) in {latency}s")
+
+            # Structured metrics log
+            log_metric({
+                "call_type": "character_generation",
+                "model": settings.NVIDIA_MODEL,
+                "category": category,
+                "nationality": nationality,
+                "gender": gender,
+                "attempts": attempt,
+                "raw_first_attempt_valid": raw_succeeded_on_first,
+                "pipeline_success": True,
+                "latency_sec": latency,
+            })
+
             return character
         except json.JSONDecodeError as e:
             last_error = e
@@ -154,6 +184,17 @@ async def generate_single_character(
             print(f"Attempt {attempt} validation error: {e}")
         if attempt < max_retries:
             await asyncio.sleep(1.5 * attempt)
+
+    latency = round(time.time() - start_time, 2)
+    log_metric({
+        "call_type": "character_generation",
+        "model": settings.NVIDIA_MODEL,
+        "attempts": max_retries,
+        "raw_first_attempt_valid": raw_succeeded_on_first,
+        "pipeline_success": False,
+        "error": str(last_error),
+        "latency_sec": latency,
+    })
 
     raise RuntimeError(f"Failed after {max_retries} attempts. Last error: {last_error}")
 
