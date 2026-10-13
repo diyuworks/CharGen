@@ -1,0 +1,745 @@
+{
+  "timestamp": "2026-10-12T11:09:57.251227Z",
+  "configuration": {
+    "n_avatar": 30,
+    "delay_sec": 10.0,
+    "mode": "both",
+    "source": "benchmark"
+  },
+  "avatar": {
+    "old": {
+      "mode": "OLD (burst/unauth)",
+      "n_calls": 30,
+      "inter_call_delay_sec": 0.0,
+      "tier1_success_count": 2,
+      "tier1_success_rate": 6.67,
+      "tier1_success_ci95": [
+        1.85,
+        21.32
+      ],
+      "tier2_success_count": 0,
+      "tier2_success_rate": 0.0,
+      "tier2_success_ci95": [
+        0.0,
+        11.35
+      ],
+      "tier3_served_count": 28,
+      "tier3_served_rate": 93.33,
+      "tier3_served_ci95": [
+        78.68,
+        98.15
+      ],
+      "real_ai_images_count": 2,
+      "real_ai_image_rate": 6.67,
+      "real_ai_image_ci95": [
+        1.85,
+        21.32
+      ],
+      "avg_latency_sec": 2.21,
+      "tier_distribution": {
+        "tier1_pollinations": 2,
+        "tier2_stable_horde": 0,
+        "tier3_dicebear": 28
+      },
+      "per_call_logs": [
+        {
+          "call_id": 1,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.95,
+          "error_type": null
+        },
+        {
+          "call_id": 2,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.98,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 3,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.2,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 4,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.02,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 5,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.3,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 6,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.69,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 7,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.85,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 8,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.87,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 9,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.14,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 10,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.48,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 11,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.95,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 12,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.3,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 13,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.41,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 14,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.84,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 15,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.91,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 16,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.11,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 17,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.37,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 18,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.06,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 19,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.09,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 20,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.41,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 21,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.36,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 22,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.37,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 23,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.42,
+          "error_type": null
+        },
+        {
+          "call_id": 24,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.18,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 25,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.41,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 26,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.24,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 27,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.38,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 28,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 1.09,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 29,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 3.45,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        },
+        {
+          "call_id": 30,
+          "mode": "OLD (burst/unauth)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 2.53,
+          "error_type": "old_pollinations_failed; old_horde_403_kudos"
+        }
+      ]
+    },
+    "new": {
+      "mode": "NEW (spaced/resilient)",
+      "n_calls": 30,
+      "inter_call_delay_sec": 10.0,
+      "tier1_success_count": 14,
+      "tier1_success_rate": 46.67,
+      "tier1_success_ci95": [
+        30.23,
+        63.86
+      ],
+      "tier2_success_count": 15,
+      "tier2_success_rate": 50.0,
+      "tier2_success_ci95": [
+        33.15,
+        66.85
+      ],
+      "tier3_served_count": 1,
+      "tier3_served_rate": 3.33,
+      "tier3_served_ci95": [
+        0.59,
+        16.67
+      ],
+      "real_ai_images_count": 29,
+      "real_ai_image_rate": 96.67,
+      "real_ai_image_ci95": [
+        83.33,
+        99.41
+      ],
+      "avg_latency_sec": 39.63,
+      "tier_distribution": {
+        "tier1_pollinations": 14,
+        "tier2_stable_horde": 15,
+        "tier3_dicebear": 1
+      },
+      "per_call_logs": [
+        {
+          "call_id": 1,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 0.42,
+          "error_type": null
+        },
+        {
+          "call_id": 2,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 152.76,
+          "error_type": null
+        },
+        {
+          "call_id": 3,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 5.14,
+          "error_type": null
+        },
+        {
+          "call_id": 4,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": false,
+          "tier3_served": true,
+          "serving_tier": "tier3_dicebear",
+          "is_real_ai_image": false,
+          "latency_sec": 159.95,
+          "error_type": "pollinations_402; horde_polling_timeout"
+        },
+        {
+          "call_id": 5,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 2.65,
+          "error_type": null
+        },
+        {
+          "call_id": 6,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 132.31,
+          "error_type": null
+        },
+        {
+          "call_id": 7,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.76,
+          "error_type": null
+        },
+        {
+          "call_id": 8,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 58.32,
+          "error_type": null
+        },
+        {
+          "call_id": 9,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.52,
+          "error_type": null
+        },
+        {
+          "call_id": 10,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 65.86,
+          "error_type": null
+        },
+        {
+          "call_id": 11,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 2.47,
+          "error_type": null
+        },
+        {
+          "call_id": 12,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 70.35,
+          "error_type": null
+        },
+        {
+          "call_id": 13,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 2.79,
+          "error_type": null
+        },
+        {
+          "call_id": 14,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 119.03,
+          "error_type": null
+        },
+        {
+          "call_id": 15,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.64,
+          "error_type": null
+        },
+        {
+          "call_id": 16,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 32.51,
+          "error_type": null
+        },
+        {
+          "call_id": 17,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.07,
+          "error_type": null
+        },
+        {
+          "call_id": 18,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 50.98,
+          "error_type": null
+        },
+        {
+          "call_id": 19,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 37.91,
+          "error_type": null
+        },
+        {
+          "call_id": 20,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 16.82,
+          "error_type": null
+        },
+        {
+          "call_id": 21,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 24.45,
+          "error_type": null
+        },
+        {
+          "call_id": 22,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.97,
+          "error_type": null
+        },
+        {
+          "call_id": 23,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 74.99,
+          "error_type": null
+        },
+        {
+          "call_id": 24,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.46,
+          "error_type": null
+        },
+        {
+          "call_id": 25,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 82.44,
+          "error_type": null
+        },
+        {
+          "call_id": 26,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 2.88,
+          "error_type": null
+        },
+        {
+          "call_id": 27,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 36.16,
+          "error_type": null
+        },
+        {
+          "call_id": 28,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.3,
+          "error_type": null
+        },
+        {
+          "call_id": 29,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": false,
+          "tier2_success": true,
+          "tier3_served": false,
+          "serving_tier": "tier2_stable_horde",
+          "is_real_ai_image": true,
+          "latency_sec": 29.49,
+          "error_type": null
+        },
+        {
+          "call_id": 30,
+          "mode": "NEW (spaced/resilient)",
+          "tier1_success": true,
+          "tier2_success": false,
+          "tier3_served": false,
+          "serving_tier": "tier1_pollinations",
+          "is_real_ai_image": true,
+          "latency_sec": 3.41,
+          "error_type": null
+        }
+      ]
+    }
+  }
+}

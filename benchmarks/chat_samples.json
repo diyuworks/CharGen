@@ -1,0 +1,1554 @@
+{
+  "metadata": {
+    "summarizer": "Real app summarizer (_summarize_messages in chat_service.py)",
+    "model": "meta/llama-3.2-11b-vision-instruct"
+  },
+  "results_1a_approximate": [
+    {
+      "length": 20,
+      "full_history_tokens": 1268,
+      "window_summary_tokens": 1268,
+      "tokens_saved": 0,
+      "pct_reduction": 0.0,
+      "summary_used": null
+    },
+    {
+      "length": 50,
+      "full_history_tokens": 2397,
+      "window_summary_tokens": 1508,
+      "tokens_saved": 889,
+      "pct_reduction": 37.09,
+      "summary_used": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n\u2022 The user works on an open-source AI platform, using React frontend with Vite and Tailwind, and FastAPI with MongoDB on the backend.\n\u2022 The user enjoys hobbies such as cooking, particularly tonkotsu ramen, and has tried cooking it at home, but found the process time-consuming.\n\u2022 The user is interested in photography, particularly street photography, and uses a Fujifilm X-T4 camera with film simulations like Classic Chrome.\n\u2022 The user enjoys cycling around the city, often listening to music, including Japanese city pop artists like Tatsuro Yamashita and Mariya Takeuchi."
+    },
+    {
+      "length": 100,
+      "full_history_tokens": 4418,
+      "window_summary_tokens": 1578,
+      "tokens_saved": 2840,
+      "pct_reduction": 64.28,
+      "summary_used": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n\u2022 The user works on an open-source AI platform, using a React frontend with Vite and Tailwind, and a FastAPI backend with MongoDB.\n\u2022 The user enjoys photography, particularly street photography, and cycling, and uses a Fujifilm X-T4 camera with film simulations like Classic Chrome.\n\u2022 The user is interested in visiting Tokyo for cherry blossom season and has been thinking about traveling there in the spring.\n\u2022 The user enjoys listening to music while cycling, particularly city pop, indie lo-fi, and synthwave, and has mentioned favorite artists like Tatsuro Yamashita and Mariya Takeuchi.\n\u2022 The user has tried cooking tonkotsu broth at home and enjoys rich tonkotsu ramen with extra chashu and garlic oil."
+    },
+    {
+      "length": 200,
+      "full_history_tokens": 8479,
+      "window_summary_tokens": 1518,
+      "tokens_saved": 6961,
+      "pct_reduction": 82.1,
+      "summary_used": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n* The user works on an open-source AI platform, using a React frontend with Vite and Tailwind, and a FastAPI backend with MongoDB.\n* The user enjoys photography and cycling, and has a Fujifilm X-T4 camera, often using Classic Chrome film simulation.\n* The user is planning to visit Tokyo next spring for cherry blossom season, and is interested in street photography and urban cycling, with a particular interest in the city's golden hours and hidden alleyway cafes."
+    }
+  ],
+  "ground_truth_1b_tokens": {
+    "50": {
+      "api_prompt_tokens": [
+        1258,
+        1258,
+        1258,
+        1258,
+        1258
+      ],
+      "mean": 1258.0,
+      "approx_tiktoken": 1508
+    },
+    "100": {
+      "api_prompt_tokens": [
+        1327,
+        1327,
+        1327,
+        1327,
+        1327
+      ],
+      "mean": 1327.0,
+      "approx_tiktoken": 1578
+    }
+  },
+  "conversations": {
+    "20_messages": [
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going?"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried."
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air."
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind."
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus?"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend."
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part."
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky."
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form."
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows."
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable."
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing?"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light."
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on?"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable."
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome?"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe."
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up?"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa."
+      }
+    ],
+    "50_messages": [
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going?"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried."
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air."
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind."
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus?"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend."
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part."
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky."
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form."
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows."
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable."
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing?"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light."
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on?"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable."
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome?"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe."
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up?"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa."
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite?"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food."
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality?"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though."
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city?"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going."
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists?"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless."
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well."
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old."
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season."
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom."
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season?"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful."
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for."
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic."
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary."
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too!"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 41]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 42]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 43]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 44]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 45]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 46]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 47]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 48]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 49]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 50]"
+      }
+    ],
+    "100_messages": [
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going?"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried."
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air."
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind."
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus?"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend."
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part."
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky."
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form."
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows."
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable."
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing?"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light."
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on?"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable."
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome?"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe."
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up?"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa."
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite?"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food."
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality?"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though."
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city?"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going."
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists?"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless."
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well."
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old."
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season."
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom."
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season?"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful."
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for."
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic."
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary."
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too!"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 41]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 42]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 43]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 44]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 45]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 46]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 47]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 48]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 49]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 50]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 51]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 52]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 53]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 54]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 55]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 56]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 57]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 58]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 59]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 60]"
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite? [turn 61]"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food. [turn 62]"
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours. [turn 63]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality? [turn 64]"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight. [turn 65]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though. [turn 66]"
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city? [turn 67]"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going. [turn 68]"
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists? [turn 69]"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless. [turn 70]"
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well. [turn 71]"
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old. [turn 72]"
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season. [turn 73]"
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom. [turn 74]"
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season? [turn 75]"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful. [turn 76]"
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for. [turn 77]"
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic. [turn 78]"
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary. [turn 79]"
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too! [turn 80]"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 81]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 82]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 83]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 84]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 85]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 86]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 87]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 88]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 89]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 90]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 91]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 92]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 93]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 94]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 95]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 96]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 97]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 98]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 99]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 100]"
+      }
+    ],
+    "200_messages": [
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going?"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried."
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air."
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind."
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus?"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend."
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part."
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky."
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form."
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows."
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable."
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing?"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light."
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on?"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable."
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome?"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe."
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up?"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa."
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite?"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food."
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality?"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight."
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though."
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city?"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going."
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists?"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless."
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well."
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old."
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season."
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom."
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season?"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful."
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for."
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic."
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary."
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too!"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 41]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 42]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 43]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 44]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 45]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 46]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 47]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 48]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 49]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 50]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 51]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 52]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 53]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 54]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 55]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 56]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 57]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 58]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 59]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 60]"
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite? [turn 61]"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food. [turn 62]"
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours. [turn 63]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality? [turn 64]"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight. [turn 65]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though. [turn 66]"
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city? [turn 67]"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going. [turn 68]"
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists? [turn 69]"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless. [turn 70]"
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well. [turn 71]"
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old. [turn 72]"
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season. [turn 73]"
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom. [turn 74]"
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season? [turn 75]"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful. [turn 76]"
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for. [turn 77]"
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic. [turn 78]"
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary. [turn 79]"
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too! [turn 80]"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 81]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 82]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 83]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 84]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 85]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 86]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 87]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 88]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 89]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 90]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 91]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 92]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 93]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 94]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 95]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 96]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 97]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 98]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 99]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 100]"
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite? [turn 101]"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food. [turn 102]"
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours. [turn 103]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality? [turn 104]"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight. [turn 105]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though. [turn 106]"
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city? [turn 107]"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going. [turn 108]"
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists? [turn 109]"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless. [turn 110]"
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well. [turn 111]"
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old. [turn 112]"
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season. [turn 113]"
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom. [turn 114]"
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season? [turn 115]"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful. [turn 116]"
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for. [turn 117]"
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic. [turn 118]"
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary. [turn 119]"
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too! [turn 120]"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 121]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 122]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 123]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 124]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 125]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 126]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 127]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 128]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 129]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 130]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 131]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 132]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 133]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 134]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 135]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 136]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 137]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 138]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 139]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 140]"
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite? [turn 141]"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food. [turn 142]"
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours. [turn 143]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality? [turn 144]"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight. [turn 145]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though. [turn 146]"
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city? [turn 147]"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going. [turn 148]"
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists? [turn 149]"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless. [turn 150]"
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well. [turn 151]"
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old. [turn 152]"
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season. [turn 153]"
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom. [turn 154]"
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season? [turn 155]"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful. [turn 156]"
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for. [turn 157]"
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic. [turn 158]"
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary. [turn 159]"
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too! [turn 160]"
+      },
+      {
+        "role": "user",
+        "content": "Hey Maya! How are you doing today? [turn 161]"
+      },
+      {
+        "role": "assistant",
+        "content": "Hey! Pretty good, just sipping an iced pour-over and editing photos. How is your day going? [turn 162]"
+      },
+      {
+        "role": "user",
+        "content": "Just finished a marathon meeting at work. Brain is completely fried. [turn 163]"
+      },
+      {
+        "role": "assistant",
+        "content": "Ugh, meeting marathons are the worst. You definitely deserve a break! Go grab some fresh air. [turn 164]"
+      },
+      {
+        "role": "user",
+        "content": "Totally. Working on an open-source AI platform now to unwind. [turn 165]"
+      },
+      {
+        "role": "assistant",
+        "content": "Oh nice! What stack are you using for it? Frontend or backend focus? [turn 166]"
+      },
+      {
+        "role": "user",
+        "content": "React frontend with Vite and Tailwind, FastAPI with MongoDB on the backend. [turn 167]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is such a clean stack. Building the character personalities must be the best part. [turn 168]"
+      },
+      {
+        "role": "user",
+        "content": "Yeah, getting the system prompt to sound natural instead of like a customer support bot was tricky. [turn 169]"
+      },
+      {
+        "role": "assistant",
+        "content": "Seriously! Getting conversational warmth without boilerplate AI phrases is an art form. [turn 170]"
+      },
+      {
+        "role": "user",
+        "content": "We also built a memory compaction system so chats do not blow up context windows. [turn 171]"
+      },
+      {
+        "role": "assistant",
+        "content": "That is smart. Caching summaries of older turns keeps the chat snappy and affordable. [turn 172]"
+      },
+      {
+        "role": "user",
+        "content": "What kind of hobbies do you do when you are not designing? [turn 173]"
+      },
+      {
+        "role": "assistant",
+        "content": "Street photography and urban cycling! Tokyo golden hours have incredible light. [turn 174]"
+      },
+      {
+        "role": "user",
+        "content": "Awesome! What camera do you shoot on? [turn 175]"
+      },
+      {
+        "role": "assistant",
+        "content": "A Fujifilm X-T4. The color science right out of the box is unbeatable. [turn 176]"
+      },
+      {
+        "role": "user",
+        "content": "Love Fujifilm! Do you use film simulations like Classic Chrome? [turn 177]"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes! Classic Chrome with warmth dialed in is basically my default recipe. [turn 178]"
+      },
+      {
+        "role": "user",
+        "content": "Any big weekend plans coming up? [turn 179]"
+      },
+      {
+        "role": "assistant",
+        "content": "Riding down to the coastal pier and hitting this tiny ramen shop in Shimokitazawa. [turn 180]"
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a perfect weekend. What kind of ramen is your favorite? [turn 181]"
+      },
+      {
+        "role": "assistant",
+        "content": "Rich tonkotsu with extra chashu and garlic oil. Absolute comfort food. [turn 182]"
+      },
+      {
+        "role": "user",
+        "content": "I tried cooking tonkotsu broth at home once and it took twelve hours. [turn 183]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha twelve hours! That is serious dedication. Did it turn out restaurant quality? [turn 184]"
+      },
+      {
+        "role": "user",
+        "content": "It was good, but my kitchen smelled like pork bones for three days straight. [turn 185]"
+      },
+      {
+        "role": "assistant",
+        "content": "Haha that is the hidden cost of culinary experiments! Totally worth it though. [turn 186]"
+      },
+      {
+        "role": "user",
+        "content": "Do you listen to music while cycling around the city? [turn 187]"
+      },
+      {
+        "role": "assistant",
+        "content": "Always! City pop, indie lo-fi, and some upbeat synthwave keep the rhythm going. [turn 188]"
+      },
+      {
+        "role": "user",
+        "content": "Any favorite Japanese city pop artists? [turn 189]"
+      },
+      {
+        "role": "assistant",
+        "content": "Tatsuro Yamashita and Mariya Takeuchi! Plastic Love is timeless. [turn 190]"
+      },
+      {
+        "role": "user",
+        "content": "Plastic Love is iconic. The 80s production quality holds up so well. [turn 191]"
+      },
+      {
+        "role": "assistant",
+        "content": "Right? The bassline alone is legendary. It never gets old. [turn 192]"
+      },
+      {
+        "role": "user",
+        "content": "I have been thinking about visiting Tokyo next spring for cherry blossom season. [turn 193]"
+      },
+      {
+        "role": "assistant",
+        "content": "Spring is magical here! Meguro River and Shinjuku Gyoen are unbelievable in full bloom. [turn 194]"
+      },
+      {
+        "role": "user",
+        "content": "How crowded does Meguro River get during sakura season? [turn 195]"
+      },
+      {
+        "role": "assistant",
+        "content": "Very crowded, but if you go early morning around sunrise, it is serene and peaceful. [turn 196]"
+      },
+      {
+        "role": "user",
+        "content": "Good tip! Sunrise photography is always worth waking up early for. [turn 197]"
+      },
+      {
+        "role": "assistant",
+        "content": "100%. Soft light, empty streets, and glowing cherry blossoms. Pure magic. [turn 198]"
+      },
+      {
+        "role": "user",
+        "content": "I will definitely add that to my travel itinerary. [turn 199]"
+      },
+      {
+        "role": "assistant",
+        "content": "Let me know when you plan the dates, I can give you a list of hidden alleyway cafes too! [turn 200]"
+      }
+    ]
+  }
+}

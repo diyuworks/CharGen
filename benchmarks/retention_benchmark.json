@@ -1,0 +1,421 @@
+{
+  "n_facts_tested": 100,
+  "mode_a_full_history": {
+    "recall_rate": 100.0,
+    "recalled_count": 100,
+    "ci95": [
+      96.3,
+      100.0
+    ]
+  },
+  "mode_b_window_summary": {
+    "recall_rate": 97.0,
+    "recalled_count": 97,
+    "ci95": [
+      91.55,
+      98.97
+    ]
+  },
+  "detail": [
+    {
+      "conversation_id": 1,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 2,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment.\n* They grew up in Portland, have a rescue dog named Barnaby, and work as an engineer at Starlight Analytics.\n* The user plays the Cello in their free time and has been playing for about ten years.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. No dessert mentioned",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "conversation_id": 3,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 4,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 5,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* They work as an engineer at Starlight Analytics and enjoy playing the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 6,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 7,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "\u2022 The user grew up in Portland and has recently moved to a new apartment.\n\u2022 The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n\u2022 The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 8,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 9,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and enjoys playing the Cello in their free time.\n* The user has a rescue dog named Barnaby and celebrates their birthday with a Lemon meringue tart.\n* The user is aware of the weather forecast and mentions rain later, but this topic is repeated multiple times.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 10,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "\u2022 The user grew up in Portland and has recently moved to a new apartment.\n\u2022 The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n\u2022 The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 11,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* They work as an engineer at Starlight Analytics and play the Cello in their free time.\n* They have a rescue dog named Barnaby and are celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 12,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment.\n* They grew up in Portland, have a rescue dog named Barnaby, and work as an engineer at Starlight Analytics.\n* The user plays the Cello in their free time and has been playing for about ten years.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. No dessert mentioned",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "conversation_id": 13,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and celebrates their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 14,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 15,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment.\n* They grew up in Portland and have a rescue dog named Barnaby.\n* The user works as an engineer at Starlight Analytics and enjoys playing the Cello in their free time.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. No dessert mentioned",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "conversation_id": 16,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and celebrates their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 17,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n\u2022 The user recently moved to a new apartment and grew up in Portland.\n\u2022 The user works as an engineer at Starlight Analytics and enjoys playing the Cello in their free time.\n\u2022 The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 18,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "Here are 3-5 short bullet points summarizing the key facts, preferences, and topics from the conversation:\n\n* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and enjoys playing the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 19,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and is celebrating their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "conversation_id": 20,
+      "mode_a_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_a_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "mode_b_summary": "* The user recently moved to a new apartment and grew up in Portland.\n* The user works as an engineer at Starlight Analytics and plays the Cello in their free time.\n* The user has a rescue dog named Barnaby and celebrates their birthday with a Lemon meringue tart.",
+      "mode_b_reply": "1. Portland\n2. Barnaby\n3. Starlight Analytics\n4. Cello\n5. Lemon meringue tart",
+      "mode_b_scores": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ]
+}
