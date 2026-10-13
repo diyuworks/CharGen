@@ -2,11 +2,13 @@ from datetime import datetime
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from openai import OpenAI
+import time
 import asyncio
 
 from app.schemas.chat import ChatMessageResponse, ChatHistoryResponse
 from app.services.character_service import get_character_by_id
 from app.core.config import settings
+from app.core.logging_metrics import log_metric
 
 # Reuse the same NVIDIA client setup pattern as gemini_service.py
 client = OpenAI(
@@ -168,7 +170,9 @@ async def _get_or_update_memory_summary(
         return existing["summary"], recent_messages
 
     # Need to (re)build the summary to cover the new older portion
+    t0 = time.time()
     summary_text = await asyncio.to_thread(_summarize_messages, character_name, older_messages)
+    latency_sec = round(time.time() - t0, 2)
     await db.chat_summaries.update_one(
         {"character_id": character_id},
         {"$set": {
@@ -178,6 +182,12 @@ async def _get_or_update_memory_summary(
         }},
         upsert=True,
     )
+    log_metric({
+        "call_type": "chat_summary",
+        "character_id": character_id,
+        "covered_message_count": len(older_messages),
+        "latency_sec": latency_sec,
+    })
     return summary_text, recent_messages
 
 
@@ -269,6 +279,7 @@ def _call_nvidia_chat(
 async def send_message(
     db: AsyncIOMotorDatabase, character_id: str, user_message: str
 ) -> ChatMessageResponse:
+    start_time = time.time()
     character = await get_character_by_id(db, character_id)
     if not character:
         raise ValueError("Character not found")
@@ -304,4 +315,11 @@ async def send_message(
     )
 
     assistant_msg = await _save_message(db, character_id, "assistant", reply_text)
+    latency_sec = round(time.time() - start_time, 2)
+    log_metric({
+        "call_type": "chat_message",
+        "character_id": character_id,
+        "message_count": len(all_messages) + 2,
+        "latency_sec": latency_sec,
+    })
     return assistant_msg

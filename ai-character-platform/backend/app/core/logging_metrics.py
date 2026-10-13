@@ -10,10 +10,14 @@ LOG_FILE = Path(settings.METRICS_LOG_PATH)
 def log_metric(data: Dict[str, Any]) -> None:
     """Safely append a metric record to the JSONL log file."""
     try:
+        default_source = "benchmark" if os.getenv("BENCHMARK_MODE") == "1" else "website"
         record = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
+            "source": data.get("source", default_source),
             **data
         }
+        if "source" not in data:
+            record["source"] = default_source
         LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write(json.dumps(record) + "\n")

@@ -102,7 +102,8 @@ async def _generate_pollinations(prompt: str, gender: str = "female") -> bytes |
         headers["Authorization"] = f"Bearer {POLLINATIONS_KEY}"
 
     # Try models: prioritize 'sana' (active free model) then fallbacks
-    models_to_try = ["flux", "sana", "turbo", ""] if POLLINATIONS_KEY else ["sana", "turbo", "", "flux"]
+    models_to_try = ["flux", "turbo", ""] if POLLINATIONS_KEY else ["flux", "turbo", ""]
+    last_err = None
 
     async with httpx.AsyncClient(timeout=45) as client:
         for model in models_to_try:
@@ -118,19 +119,24 @@ async def _generate_pollinations(prompt: str, gender: str = "female") -> bytes |
             try:
                 response = await client.get(url, headers=headers)
                 if response.status_code == 200 and len(response.content) > 1000:
-                    return response.content
+                    return response.content, None
                 elif response.status_code in (402, 500, 502, 503, 504):
+                    last_err = f"pollinations_{response.status_code}"
                     print(f" Pollinations {model or 'default'} returned {response.status_code}, trying next model option...")
                     await asyncio.sleep(1)
                     continue
+                else:
+                    last_err = f"pollinations_{response.status_code}"
             except httpx.TimeoutException:
+                last_err = "pollinations_timeout"
                 print(f" Pollinations timeout on model {model or 'default'}")
                 continue
             except Exception as e:
+                last_err = f"pollinations_error"
                 print(f" Pollinations error: {e}")
                 continue
 
-    return None
+    return None, last_err or "pollinations_failed"
 
 
 async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes | None:
@@ -173,20 +179,20 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
             )
         except Exception as e:
             print(f" Stable Horde connect error: {e}")
-            return None
+            return None, "horde_connect_error"
 
         if response.status_code == 403:
             body = response.text[:200].replace("\n", " ")
             print(f" Stable Horde 403: {body}")
-            return None
+            return None, "horde_403_kudos"
         elif response.status_code != 202:
             print(f" Stable Horde submit error {response.status_code}: {response.text[:200]}")
-            return None
+            return None, f"horde_submit_{response.status_code}"
 
         job_id = response.json().get("id")
         if not job_id:
             print(" No job ID returned from Stable Horde")
-            return None
+            return None, "horde_no_job_id"
 
         print(f" Stable Horde job submitted: {job_id}")
 
@@ -223,10 +229,10 @@ async def _generate_stable_horde(prompt: str, gender: str = "female") -> bytes |
                             img_data = generations[0].get("img", "")
                             if img_data.startswith("data:image"):
                                 img_data = img_data.split(",")[1]
-                            return base64.b64decode(img_data)
+                            return base64.b64decode(img_data), None
 
         print(" Stable Horde timed out after polling wait")
-        return None
+        return None, "horde_polling_timeout"
 
 
 def _save_image(image_bytes: bytes, character_id: str) -> str:
@@ -272,20 +278,24 @@ async def generate_avatar_for_character(
     tier_used = None
     is_ai_image = False
 
-    # 1. Try Stable Horde first (Tier 1 for photorealistic studio photography)
-    print(" Attempting Tier 1: Stable Horde (photorealistic models)...")
-    image_bytes = await _generate_stable_horde(prompt, gender)
+    # 1. Try Pollinations first (Tier 1)
+    print(" Attempting Tier 1: Pollinations...")
+    image_bytes, poll_err = await _generate_pollinations(prompt, gender)
     if image_bytes:
-        tier_used = "tier1_stable_horde"
+        tier_used = "tier1_pollinations"
         is_ai_image = True
     else:
-        # 2. Fallback to Pollinations if Horde is unavailable
-        print(" Stable Horde unavailable/timed out, attempting Tier 2: Pollinations...")
-        image_bytes = await _generate_pollinations(prompt, gender)
+        error_type = poll_err
+        # 2. Fallback to Stable Horde (Tier 2)
+        print(f" Pollinations failed ({poll_err}), attempting Tier 2: Stable Horde...")
+        image_bytes, horde_err = await _generate_stable_horde(prompt, gender)
         if image_bytes:
-            tier_used = "tier2_pollinations"
+            tier_used = "tier2_stable_horde"
             is_ai_image = True
         else:
+            # 3. Fallback to DiceBear (Tier 3)
+            error_type = f"{poll_err}; {horde_err}" if poll_err else horde_err
+            print(f" Stable Horde failed ({horde_err}), using Tier 3: DiceBear...")
             tier_used = "tier3_dicebear"
             is_ai_image = False
 
@@ -313,6 +323,7 @@ async def generate_avatar_for_character(
         "character_id": character_id,
         "tier_used": tier_used,
         "is_ai_image": is_ai_image,
+        "error_type": error_type,
         "success": True,
         "latency_sec": latency,
     })

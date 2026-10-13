@@ -1,3 +1,4 @@
+import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ASCENDING
 from app.core.config import settings
@@ -5,10 +6,17 @@ from app.core.config import settings
 client: AsyncIOMotorClient = None
 
 
+def get_db_name() -> str:
+    if os.getenv("BENCHMARK_MODE") == "1":
+        return "ai_characters_test"
+    return settings.MONGODB_DB_NAME
+
+
 async def connect_db():
     global client
     client = AsyncIOMotorClient(settings.MONGODB_URL)
-    db = client[settings.MONGODB_DB_NAME]
+    db_name = get_db_name()
+    db = client[db_name]
 
     # Create indexes for scalable querying (10M+ characters)
     await db.characters.create_index([("name", ASCENDING)])
@@ -35,7 +43,7 @@ async def connect_db():
     # One favorite doc per character (existence = favorited)
     await db.favorites.create_index("character_id", unique=True)
 
-    print(f"[OK] Connected to MongoDB: {settings.MONGODB_DB_NAME}")
+    print(f"[OK] Connected to MongoDB: {db_name}")
     return db
 
 
@@ -47,4 +55,4 @@ async def disconnect_db():
 
 
 def get_database():
-    return client[settings.MONGODB_DB_NAME]
+    return client[get_db_name()]
