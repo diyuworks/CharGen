@@ -52,17 +52,17 @@
 
 ## 5. Safe Resume Claims
 
-> **Statistical Threshold Rule**: Any claim with sample size **n < 30** or confidence interval wider than 20 percentage points is strictly flagged as **"Too small to quote"** to prevent misleading or untruthful resume claims.
+> **Statistical Threshold Rule**: Any claim with sample size **n < 30** or confidence interval wider than 20 percentage points is marked as **"Too small to quote"** to prevent misleading claims.
 
-- [ ] **TOO SMALL TO QUOTE**: Character generation JSON repair recovery (n = 22 < 30). *Requires at least 30 observations on the live site before quoting numbers on resume.* Current: Observed final success 100.0% (95% CI: [85.13%, 100.0%])
-- [ ] **TOO SMALL TO QUOTE**: Avatar 3-tier cascade resilience (n = 26 < 30). *Requires at least 30 observations on the live site before quoting numbers on resume.* Current: Observed AI avatar generation rate 53.85% (95% CI: [35.46%, 71.24%])
-- [ ] **TOO SMALL TO QUOTE**: Interactive chat conversation memory (n = 0 < 30). *Requires at least 30 observations on the live site before quoting numbers on resume.* Current: Observed 0 chat turns, 0 summaries past 20-message window
+- **TOO SMALL TO QUOTE**: Character generation JSON repair recovery (n = 22 < 30). Requires at least 30 observations on the live site before quoting numbers on resume. Current: Observed final success 100.0% (95% CI: [85.13%, 100.0%])
+- **TOO SMALL TO QUOTE**: Avatar 3-tier cascade resilience (n = 26 < 30). Requires at least 30 observations on the live site before quoting numbers on resume. Current: Observed AI avatar generation rate 53.85% (95% CI: [35.46%, 71.24%])
+- **TOO SMALL TO QUOTE**: Interactive chat conversation memory (n = 0 < 30). Requires at least 30 observations on the live site before quoting numbers on resume. Current: Observed 0 chat turns, 0 summaries past 20-message window
 
 ---
 
 ## 6. Offline Benchmark Suite Results (results_v2.json)
 
-> **ISOLATION GUARD**: The following figures are generated strictly from offline controlled experiment suites (`results_v2.json`) under synthetic stress testing. They are NEVER pooled with organic website user traffic numbers above.
+> **Note on offline benchmark isolation**: The figures below come directly from offline test suites (`results_v2.json`) under synthetic tests. They are kept separate from live website usage numbers above.
 
 ### A. JSON Parsing Reliability Benchmark (Controlled N = 100)
 - **Old Unconstrained Implementation**:
@@ -79,4 +79,3 @@
 - **New Token-Enabled Resilient Mode**:
   - Real AI Image Rate: **10.0%** (95% CI: `[3.46%, 25.62%]`)
   - Tier Breakdown: Tier 1 = 3, Tier 2 = 0, Tier 3 = 27
-

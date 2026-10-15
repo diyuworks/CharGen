@@ -1,9 +1,9 @@
 # CharGen Consolidated Master Numbers Table
 
-This single consolidated table contains every measured metric across the CharGen platform.
-Strict separation is maintained between organic production website logs (`source: website`) and synthetic/scripted benchmarks (`source: benchmark`).
+This single consolidated table contains measured metrics across the CharGen platform.
+Logs from live website traffic (`source: website`) and scripted benchmark runs (`source: benchmark`) are kept separate.
 
-| Metric | Value | $n$ | 95% CI | Source | Raw File | What Changed Between Before/After |
+| Metric | Value | n | 95% CI | Source | Raw File | What Changed Between Before/After |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
 | **JSON Raw First-Attempt Valid** | 86.0% (86/100) | 100 | [77.86%, 91.48%] | benchmark | `benchmarks/results_v2.json` | First raw LLM output passed strict JSON deserialization before any repair |
 | **JSON Pipeline Success Rate** | 100.0% (100/100) | 100 | [96.30%, 100.0%] | benchmark | `benchmarks/results_v2.json` | Final success after bracket extraction, smart-quote/syntax repair heuristics, and up to 5 retries |
@@ -13,10 +13,10 @@ Strict separation is maintained between organic production website logs (`source
 | **Avatar Cascade Availability (New)** | 100.0% (30/30) | 30 | [88.65%, 100.0%] | benchmark | `benchmarks/results_v3.json` | Falls back to DiceBear SVG on AI failure (zero unhandled HTTP/timeout crashes) |
 | **Fact Retention: Mode A (Full History)** | 100.0% (100/100) | 100 | [96.30%, 100.0%] | benchmark | `benchmarks/retention_benchmark.json` | All 40 messages provided verbatim in context across 20 scripted benchmark conversations |
 | **Fact Retention: Mode B (Window + Real Summary)** | 97.0% (97/100) | 100 | [91.55%, 98.97%] | benchmark | `benchmarks/retention_benchmark.json` | Recent 20 turns verbatim + real LLM summary (`_summarize_messages`) of older turns |
-| **Chat Endpoint Latency (Without Summary)** | p50: 2.21s, p95: 21.53s | 145 | - | benchmark | `benchmarks/chat_endpoint_benchmark.json` | Live API turns where context fits in verbatim window ($n=145$ calls across 5 characters) |
+| **Chat Endpoint Latency (Without Summary)** | p50: 2.21s, p95: 21.53s | 145 | - | benchmark | `benchmarks/chat_endpoint_benchmark.json` | Live API turns where context fits in verbatim window (n = 145 calls across 5 characters) |
 | **Chat Endpoint Latency (With Summary Turn)** | p50: 2.61s, p95: 8.09s | 5 | - | benchmark | `benchmarks/chat_endpoint_benchmark.json` | Inline summarization turn (`asyncio.to_thread(_summarize_messages)`) updating DB summary |
-| **Chat Ground Truth Prompt Tokens (50 msgs)** | 1,258.0 mean | 5 | - | benchmark | `benchmarks/chat_samples.json` | Verified `usage.prompt_tokens` from NVIDIA NIM API completions ($n=5$ real API calls) |
-| **Chat Ground Truth Prompt Tokens (100 msgs)** | 1,327.0 mean | 5 | - | benchmark | `benchmarks/chat_samples.json` | Verified `usage.prompt_tokens` from NVIDIA NIM API completions ($n=5$ real API calls) |
+| **Chat Ground Truth Prompt Tokens (50 msgs)** | 1,258.0 mean | 5 | - | benchmark | `benchmarks/chat_samples.json` | Verified `usage.prompt_tokens` from NVIDIA NIM API completions (n = 5 real API calls) |
+| **Chat Ground Truth Prompt Tokens (100 msgs)** | 1,327.0 mean | 5 | - | benchmark | `benchmarks/chat_samples.json` | Verified `usage.prompt_tokens` from NVIDIA NIM API completions (n = 5 real API calls) |
 | **Chat Prompt Reduction (20 msgs)** | 0.00% (0 tok saved) | 1 | - | benchmark | `benchmarks/chat_samples.json` | All 20 turns fit within verbatim window; no compaction triggered |
 | **Chat Prompt Reduction (50 msgs)** | 37.09% (889 tok saved) | 1 | - | benchmark | `benchmarks/chat_samples.json` | 30 older messages compacted into real LLM summary (2,397 vs 1,508 tiktoken) |
 | **Chat Prompt Reduction (100 msgs)** | 64.28% (2840 tok saved) | 1 | - | benchmark | `benchmarks/chat_samples.json` | 80 older messages compacted into real LLM summary (4,418 vs 1,578 tiktoken) |

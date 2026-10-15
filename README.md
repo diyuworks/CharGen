@@ -1,6 +1,6 @@
-# CharGen: Full-Stack AI Character Generation & Interactive Chat Platform
+# CharGen: AI Character Generation and Interactive Chat Platform
 
-An end-to-end AI character platform featuring structured character synthesis, a resilient 3-tier avatar generation cascade, and interactive messaging with running memory summarization.
+A full-stack web application for generating AI characters and chatting with them in real time. It includes structured character generation, a 3-tier avatar generation fallback, and interactive chat with sliding-window memory and running summaries.
 
 ---
 
@@ -13,11 +13,11 @@ An end-to-end AI character platform featuring structured character synthesis, a 
 
 ---
 
-## Engineering Implementation & Core Pipelines
+## Implementation Details and Pipelines
 
-### 1. Robust JSON Generation & Repair Engine
-Vision-instruct LLMs can occasionally generate malformed JSON syntax (unescaped quotes, smart quotes, trailing commas, or markdown fences) that breaks standard deserialization.
-- **Bracket-Depth Extraction** (`ai-character-platform/backend/app/services/gemini_service.py`): Traverses raw model output tracking bracket nesting depth:
+### 1. JSON Parsing and Repair
+Vision-instruct LLMs can occasionally output invalid JSON (unescaped quotes, smart quotes, trailing commas, or markdown code fences) that fails standard deserialization.
+- **Bracket-Depth Extraction** (`ai-character-platform/backend/app/services/gemini_service.py`): Scans raw model text while tracking bracket nesting depth:
   ```python
   for i, ch in enumerate(text):
       if ch != "{":
@@ -31,36 +31,36 @@ Vision-instruct LLMs can occasionally generate malformed JSON syntax (unescaped 
           if depth == 0:
               candidate = text[i:j+1]
   ```
-- **Syntax Normalization Heuristics** (`ai-character-platform/backend/app/services/gemini_service.py`): Converts smart quotes to straight quotes, strips stray control characters, and removes trailing commas before `}` or `]`:
+- **Syntax Normalization Heuristics** (`ai-character-platform/backend/app/services/gemini_service.py`): Replaces smart quotes with straight quotes, strips stray control characters, and removes trailing commas before `}` or `]`:
   ```python
   text = text.replace("\u2018", "'").replace("\u2019", "'")
   text = text.replace("\u201c", '"').replace("\u201d", '"')
   text = re.sub(r",\s*([}\]])", r"\1", text)
   ```
-- **Linear Backoff Retries** (`ai-character-platform/backend/app/services/gemini_service.py`): Executes up to 5 attempts with linear backoff (`1.5 * attempt` seconds) if validation or parsing fails.
+- **Linear Backoff Retries** (`ai-character-platform/backend/app/services/gemini_service.py`): Retries up to 5 times with linear backoff (`1.5 * attempt` seconds) if validation or parsing fails.
 
-### 2. 3-Tier Avatar Generation Cascade
-Falls back to a deterministic DiceBear avatar when AI tiers fail, so characters still get an avatar (`ai-character-platform/backend/app/services/avatar_service.py`):
-- **Tier 1 (Pollinations AI / Flux)**: Primary realistic image synthesis provider with a 45s HTTP timeout and transient error retries.
-- **Tier 2 (Stable Horde)**: Distributed worker network fallback with asynchronous job submission and polling. If an HTTP 403 kudos or demand error occurs, it handles the error gracefully by falling back immediately without unhandled crashes:
+### 2. 3-Tier Avatar Generation
+Falls back to a deterministic DiceBear avatar when AI image services fail, ensuring characters still receive an avatar (`ai-character-platform/backend/app/services/avatar_service.py`):
+- **Tier 1 (Pollinations AI / Flux)**: Primary realistic image provider with a 45s HTTP timeout and transient error retries.
+- **Tier 2 (Stable Horde)**: Distributed worker network fallback with asynchronous job submission and polling. If an HTTP 403 kudos or demand error occurs, it catches the error and falls back immediately without crashing:
   ```python
   if response.status_code == 403:
       body = response.text[:200].replace("\n", " ")
       print(f" Stable Horde 403: {body}")
       return None, "horde_403_kudos"
   ```
-- **Tier 3 (DiceBear SVG Fallback)**: Deterministic vector avatar generator using character name and gender seeds, ensuring complete cascade availability even when upstream AI services are unavailable.
+- **Tier 3 (DiceBear SVG Fallback)**: Deterministic vector avatar generator using character name and gender seeds, keeping the avatar pipeline available even when external AI image services are down.
 
-### 3. Interactive Chat with Hybrid Sliding-Window Memory
+### 3. Interactive Chat with Sliding-Window Memory
 - **Verbatim Window** (`ai-character-platform/backend/app/services/chat_service.py`): Keeps the 20 most recent messages verbatim in prompt context:
   ```python
   MAX_HISTORY_MESSAGES = 20
   ```
-- **Inline Running Summarizer** (`ai-character-platform/backend/app/services/chat_service.py`): When conversation length exceeds 20 messages, older messages are summarized inline during the request turn using `_summarize_messages(character_name, messages)` (delegated via `asyncio.to_thread`):
+- **Inline Running Summarizer** (`ai-character-platform/backend/app/services/chat_service.py`): When conversation length exceeds 20 messages, older messages are summarized inline during the request turn using `_summarize_messages(character_name, messages)` (run in a separate thread via `asyncio.to_thread`):
   ```python
   summary_text = await asyncio.to_thread(_summarize_messages, character_name, older_messages)
   ```
-  The summary is cached and upserted into the MongoDB `chat_summaries` collection to avoid redundant summarization on subsequent turns.
+  The summary is cached and upserted into the MongoDB `chat_summaries` collection to avoid re-summarizing on subsequent turns.
 - **Persona Behavior Wrapper** (`ai-character-platform/backend/app/services/chat_service.py`): Enforces natural conversational texting:
   ```python
   rules = (
@@ -72,51 +72,51 @@ Falls back to a deterministic DiceBear avatar when AI tiers fail, so characters 
   )
   ```
 
-### 4. Frontend Architecture & Real Pages
+### 4. Frontend Structure and Pages
 The frontend interface (`ai-character-platform/frontend/src/pages/`) consists of 6 dedicated pages:
-- **`GenerateCharacter.tsx`**: Structured character synthesis wizard with async avatar polling.
-- **`Swipe.tsx`**: Framer Motion touch/drag gesture discovery deck for liking and passing characters.
+- **`GenerateCharacter.tsx`**: Structured character creation wizard with async avatar polling.
+- **`Swipe.tsx`**: Framer Motion touch and drag gesture discovery deck for liking and passing characters.
 - **`ChatPage.tsx`**: Real-time messaging interface with active character persona and memory.
 - **`ChatList.tsx`**: Recent conversations list and messaging hub.
 - **`Gallery.tsx`**: Filterable character catalog with text search, category filtering, and bulk avatar generation.
-- **`Dashboard.tsx`**: Grid of generated characters with search, category/gender filtering, follower counts, and deletion.
-- **Favorites Management**: Managed via custom React hook `ai-character-platform/frontend/src/hooks/useFavorites.ts` with dedicated viewing tab on `Dashboard.tsx`.
+- **`Dashboard.tsx`**: Grid of generated characters with search, category and gender filtering, follower counts, and deletion.
+- **Favorites Management**: Managed through custom React hook `ai-character-platform/frontend/src/hooks/useFavorites.ts` with a dedicated viewing tab on `Dashboard.tsx`.
 
 ---
 
-## Empirical Reliability Benchmarks
+## Reliability Benchmarks
 
-All metrics were measured empirically using real API calls against `meta/llama-3.2-11b-vision-instruct` and recorded in `benchmarks/RESULTS.md`. Production website logs (`source: website`) and scripted benchmarks (`source: benchmark`) are strictly separated.
+All metrics were measured using real API calls against `meta/llama-3.2-11b-vision-instruct` and recorded in `benchmarks/RESULTS.md`. Production website logs (`source: website`) and scripted benchmarks (`source: benchmark`) are kept separate.
 
-### Character JSON Generation Benchmark ($n = 100$ calls)
+### Character JSON Generation Benchmark (n = 100 calls)
 - **Model**: `meta/llama-3.2-11b-vision-instruct`
 - **Raw JSON First-Attempt Valid**: **86.0%** (86/100, 95% Wilson CI: `[77.86%, 91.48%]`)
 - **Final Pipeline Success Rate**: **100.0%** (100/100, 95% Wilson CI: `[96.30%, 100.0%]`) with repair heuristics and retries.
 - **Attempts Distribution**: 86 resolved on Attempt 1; 11 resolved on Attempt 2; 2 resolved on Attempt 3; 1 resolved on Attempt 4; 0 unresolved failures.
 
-### Avatar Generation Cascade Benchmark ($n = 30$ calls per run mode)
+### Avatar Generation Cascade Benchmark (n = 30 calls per run mode)
 - **Old (Burst / Unauthenticated)**: Real AI Image Rate = **6.67%** (2/30, 95% Wilson CI: `[1.85%, 21.32%]`)
 - **New (Spaced / Authenticated)**: Real AI Image Rate = **96.67%** (29/30, 95% Wilson CI: `[83.33%, 99.41%]`)
-- **Cascade Availability**: **100.0%** (30/30, 95% Wilson CI: `[88.65%, 100.0%]`) across both modes via graceful Tier 3 fallback.
+- **Cascade Availability**: **100.0%** (30/30, 95% Wilson CI: `[88.65%, 100.0%]`) across both modes via Tier 3 fallback.
 
-### Chat Memory & Fact Retention Benchmark (Scripted Conversations)
-Evaluated across 20 scripted conversations with 100 planted facts, using the platform's real summarizer (`_summarize_messages` in `ai-character-platform/backend/app/services/chat_service.py`):
+### Chat Memory and Fact Retention Benchmark (Scripted Conversations)
+Evaluated across 20 scripted conversations with 100 planted facts, using the platform's summarizer (`_summarize_messages` in `ai-character-platform/backend/app/services/chat_service.py`):
 - **Mode A (Full History, 40 messages verbatim)**: **100.0%** recall (100/100, 95% Wilson CI: `[96.30%, 100.0%]`)
 - **Mode B (Window + Real Summary)**: **97.0%** recall (97/100, 95% Wilson CI: `[91.55%, 98.97%]`)
-- **API-Verified Token Usage ($n = 5$ completions per length)**:
+- **API-Verified Token Usage (n = 5 completions per length)**:
   - 50 messages: API prompt tokens mean = **1,258.0**
   - 100 messages: API prompt tokens mean = **1,327.0**
-- **Live Endpoint Latency ($n = 145$ standard turns, 5 characters $\times$ 30 messages)**:
-  - Standard Chat Latency: $p_{50} = 2.21$s, $p_{95} = 21.53$s
-  - Inline Summary Turn: $p_{50} = 2.61$s, $p_{95} = 8.09$s ($n = 5$)
+- **Live Endpoint Latency (n = 145 standard turns, 5 characters x 30 messages)**:
+  - Standard Chat Latency: p50 = 2.21s, p95 = 21.53s
+  - Inline Summary Turn: p50 = 2.61s, p95 = 8.09s (n = 5)
 
 ---
 
-## Quickstart & Setup
+## Quickstart and Setup
 
 ### Prerequisites
 - Python 3.10+
-- Node.js 18+ & npm
+- Node.js 18+ and npm
 - MongoDB running on `localhost:27017`
 - NVIDIA NIM API Key
 
@@ -165,7 +165,7 @@ npm install
 npm run dev
 ```
 
-### 4. Running Benchmarks & Verifications
+### 4. Running Benchmarks and Verifications
 ```bash
 # Run chat memory & reliability benchmarks (requires MongoDB and NVIDIA NIM API key)
 python benchmarks/run_chat_benchmarks.py

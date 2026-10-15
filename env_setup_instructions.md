@@ -1,6 +1,6 @@
-# 🔐 CharGen - Environment Setup
+# CharGen: Environment Setup
 
-After cloning the repo, you need to create 2 `.env` files:
+After cloning the repository, create 2 `.env` files:
 
 ---
 
@@ -30,6 +30,16 @@ VITE_API_URL=http://localhost:8000/api/v1
 
 ## Setup Steps
 1. `git clone https://github.com/diyuworks/CharGen.git`
-2. Create both `.env` files above
-3. **Backend:** `cd ai-character-platform/backend` → `pip install -r requirements.txt` → `python -m uvicorn app.main:app --reload`
-4. **Frontend:** `cd ai-character-platform/frontend` → `npm install` → `npm run dev`
+2. Create both `.env` files listed above
+3. **Backend:**
+   ```bash
+   cd ai-character-platform/backend
+   pip install -r requirements.txt
+   python -m uvicorn app.main:app --reload
+   ```
+4. **Frontend:**
+   ```bash
+   cd ai-character-platform/frontend
+   npm install
+   npm run dev
+   ```
